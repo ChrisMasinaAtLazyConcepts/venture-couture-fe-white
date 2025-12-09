@@ -20,24 +20,13 @@ export default function Header() {
           {/* Logo */}
           <a href="/" className="flex items-center flex-shrink-0">
             <div className="flex items-center">
-              <img src="/assets/images/vc.logo1.png" className="w-40 h-10 object-contain" />
+              <img src="/assets/images/vc.logo1.png" className="object-contain" />
             </div>
           </a>
 
           {/* Desktop Navigation with Top Bar items integrated */}
           <div className="hidden lg:flex items-center gap-4">
-            {/* Top bar items */}
-            <div className="flex items-center gap-4 pr-4 border-r border-gray-200">
-              <a href="/contact" className="text-gray-600 hover:text-black transition text-sm font-medium">
-                Contact
-              </a>
-              <a href="/track-order" className="text-gray-600 hover:text-black transition text-sm font-medium">
-                Track Order
-              </a>
-              <a href="/sale" className="text-black font-bold hover:text-gray-800 transition text-sm bg-yellow-50 px-2 py-1 rounded">
-                SALE LIVE
-              </a>
-            </div>
+           
 
             {/* Main navigation */}
             <nav className="flex items-center gap-1">
@@ -96,7 +85,18 @@ export default function Header() {
             </button>
           </div>
         </div>
-
+      {/* Top bar items */}
+            <div className="flex items-center gap-4 pr-4 border-r border-gray-200">
+              <a href="/contact" className="text-gray-600 hover:text-black transition text-sm font-medium">
+                Contact
+              </a>
+              <a href="/track-order" className="text-gray-600 hover:text-black transition text-sm font-medium">
+                Track Order
+              </a>
+              <a href="/sale" className="text-black font-bold hover:text-gray-800 transition text-sm bg-yellow-50 px-2 py-1 rounded">
+                SALE LIVE
+              </a>
+            </div>
         {/* Mobile menu */}
         {isMenuOpen && (
           <nav className="lg:hidden border-t border-gray-200 pt-4 mt-3">

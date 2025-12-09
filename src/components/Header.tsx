@@ -82,6 +82,16 @@ export default function Header() {
             </button>
           </div>
         </div>
+		
+		 {/* Top bar */}
+        <div className="hidden md:flex items-center justify-end py-2 ">
+          <div className="flex items-center gap-6 text-sm">
+            <a href="/contact" className="text-gray-600 hover:text-blue-600 transition">Contact</a>
+            <a href="/track-order" className="text-gray-600 hover:text-blue-600 transition">Track Order</a>
+            <span className="text-gray-400">|</span>
+            <a href="/sale" className="text-blue-600 font-bold hover:text-blue-800 transition">SALE NOW LIVE</a>
+          </div>
+        </div>
 
         {/* Mobile menu */}
         {isMenuOpen && (

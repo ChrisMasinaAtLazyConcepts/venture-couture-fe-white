@@ -39,7 +39,7 @@ export default function OrderTracking() {
         <div className="container mx-auto px-4 text-center">
           <Package size={48} className="mx-auto mb-4" />
           <h1 className="text-5xl font-bold mb-4">Track Your Order</h1>
-          <p className="text-xl text-white/90">Enter your tracking number to see your order status</p>
+          <p className="text-xl text-black">Enter your tracking number to see your order status</p>
         </div>
       </div>
 

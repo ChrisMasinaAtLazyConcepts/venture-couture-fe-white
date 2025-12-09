@@ -47,7 +47,18 @@ export default function Header() {
               </a>
             </nav>
           </div>
-
+ {/* Top bar items */}
+            <div className="flex items-center gap-4 pr-4 border-r border-gray-200">
+              <a href="/contact" className="text-gray-600 hover:text-black transition text-sm font-medium">
+                Contact
+              </a>
+              <a href="/track-order" className="text-gray-600 hover:text-black transition text-sm font-medium">
+                Track Order
+              </a>
+              <a href="/sale" className="text-black font-bold hover:text-gray-800 transition text-sm bg-yellow-50 px-2 py-1 rounded">
+                SALE LIVE
+              </a>
+            </div>
           {/* Right side icons */}
           <div className="flex items-center gap-2">
             <button 
@@ -85,18 +96,7 @@ export default function Header() {
             </button>
           </div>
         </div>
-      {/* Top bar items */}
-            <div className="flex items-center gap-4 pr-4 border-r border-gray-200">
-              <a href="/contact" className="text-gray-600 hover:text-black transition text-sm font-medium">
-                Contact
-              </a>
-              <a href="/track-order" className="text-gray-600 hover:text-black transition text-sm font-medium">
-                Track Order
-              </a>
-              <a href="/sale" className="text-black font-bold hover:text-gray-800 transition text-sm bg-yellow-50 px-2 py-1 rounded">
-                SALE LIVE
-              </a>
-            </div>
+     
         {/* Mobile menu */}
         {isMenuOpen && (
           <nav className="lg:hidden border-t border-gray-200 pt-4 mt-3">

@@ -43,7 +43,7 @@ jobs:
 
       - name: Set DOCKER_IMAGE
         run: |
-          echo "DOCKER_IMAGE=ghcr.io/$(echo ${{ github.actor }} | tr '[:upper:]' '[:lower:]')/venture-couture-webapp" >> $GITHUB_ENV
+          echo "DOCKER_IMAGE=ghcr.io/$(echo ${{ github.actor }} | tr '[:upper:]' '[:lower:]')/vc-webapp-white" >> $GITHUB_ENV
       
       - name: Build and push Docker image
         run: |

@@ -30,7 +30,7 @@ const CheckoutModal: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4"
+        className="fixed inset-0 bg-white bg-opacity-80 z-50 flex items-center justify-center p-4"
         onClick={() => dispatch({ type: 'CLOSE_CHECKOUT' })}
       >
         <motion.div
@@ -41,10 +41,10 @@ const CheckoutModal: React.FC = () => {
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-blue-200 bg-blue-600">
+          <div className="flex items-center justify-between p-6 bg-black">
             <div>
               <h2 className="text-2xl font-bold text-white">Secure Checkout</h2>
-              <p className="text-sm text-blue-100 mt-1">Complete your purchase</p>
+              <p className="text-sm text-white mt-1">Complete your purchase</p>
             </div>
             <button
               onClick={() => dispatch({ type: 'CLOSE_CHECKOUT' })}
@@ -176,7 +176,7 @@ const CheckoutModal: React.FC = () => {
                 <button
                   onClick={handlePayment}
                   disabled={isProcessing}
-                  className="w-full bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-white py-4 rounded-lg font-bold hover:from-blue-700 hover:via-blue-600 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-blue-900/20"
+                  className="w-full bg-red-600 via-blue-500 to-blue-600 text-white py-4 rounded-lg font-bold hover:from-blue-700 hover:via-blue-600 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-blue-900/20"
                 >
                   {isProcessing ? (
                     <>

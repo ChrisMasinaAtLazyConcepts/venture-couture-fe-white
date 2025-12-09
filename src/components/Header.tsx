@@ -47,7 +47,6 @@ export default function Header() {
               </a>
             </nav>
           </div>
- {/* Top bar items */}
             <div className="flex items-center gap-4 pr-4 border-r border-gray-200">
               <a href="/contact" className="text-gray-600 hover:text-black transition text-sm font-medium">
                 Contact

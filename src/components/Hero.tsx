@@ -3,15 +3,7 @@ import { ArrowRight } from 'lucide-react';
 export default function Hero() {
   return (
     <section className="relative h-[600px] lg:h-[700px] overflow-hidden">
-       {/* Top bar */}
-        <div className="hidden md:flex items-center justify-end py-2 ">
-          <div className="flex items-center gap-6 text-sm">
-            <a href="/contact" className="text-gray-600 hover:text-blue-600 transition">Contact</a>
-            <a href="/track-order" className="text-gray-600 hover:text-blue-600 transition">Track Order</a>
-            <span className="text-gray-400">|</span>
-            <a href="/sale" className="text-blue-600 font-bold hover:text-red-800 transition">SALE NOW LIVE</a>
-          </div>
-        </div>
+      
       <div className="absolute inset-0">
         <img
           src="https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinysrgb&w=1600"

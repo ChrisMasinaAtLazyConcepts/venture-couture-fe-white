@@ -384,20 +384,7 @@ const ProductSearch: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
 
-      {/* Hero Section */}
-      <div className="bg-black text-white py-12">
-        <div className="container mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Find Your Style</h1>
-            <p className="text-xl text-white/90 mb-8">Discover the latest fashion trends and exclusive collections</p>
-          </motion.div>
-        </div>
-      </div>
-
+     
       {/* Large Search Bar Section */}
       <section className="bg-white border-b border-gray-200 py-8">
         <div className="container mx-auto px-4">

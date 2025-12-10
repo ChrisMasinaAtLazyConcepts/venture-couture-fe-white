@@ -48,14 +48,14 @@ export default function Header() {
   ];
 
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+    <header className="bg-black sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4 py-3">
         {/* Main header - all items in one line */}
         <div className="flex items-center justify-between">
           {/* Logo */}
           <a href="/" className="flex items-center flex-shrink-0">
             <div className="flex items-center">
-              <img src="/assets/images/vc.logo1.png" className="object-contain w-60 h-20" alt="Venture Couture" />
+              <img src="/assets/images/vc.logo.png" className="object-contain w-60 h-23" alt="Venture Couture" />
             </div>
           </a>
 
@@ -67,14 +67,14 @@ export default function Header() {
                 <a
                   key={item}
                   href="/"
-                  className="px-3 py-2 text-gray-800 hover:text-black hover:bg-gray-100 rounded transition font-medium text-sm"
+                  className="px-3 py-2 text-white hover:text-black hover:bg-gray-100 rounded transition font-medium text-sm"
                 >
                   {item}
                 </a>
               ))}
               <a
                 href="/sale"
-                className="px-3 py-2 bg-black text-white rounded font-bold hover:bg-gray-800 transition text-sm ml-1"
+                className="px-3 py-2 bg-white text-red-400 rounded font-bold hover:bg-gray-800 transition text-sm ml-1"
               >
                 SALE
               </a>
@@ -82,7 +82,7 @@ export default function Header() {
           </div>
           
           <div className="hidden lg:flex items-center gap-4 pr-4 border-r border-gray-200">
-            <a href="/contact" className="text-gray-600 hover:text-black transition text-sm font-medium">
+            <a href="/contact" className="text-gray-100 hover:text-black transition text-sm font-medium">
               Contact
             </a>
             <a href="/track-order" className="text-red-600 hover:text-black transition text-sm font-medium">
@@ -97,9 +97,9 @@ export default function Header() {
               className="p-2 text-gray-700 hover:text-black hover:bg-gray-100 rounded transition"
               title="Search"
             >
-              <Search size={18} />
+              <Search size={18} className="text-white" />
             </button>
-            <button className="p-2 text-gray-700 hover:text-black hover:bg-gray-100 rounded transition" title="Wishlist">
+            <button className="p-2 text-white hover:text-black hover:bg-gray-100 rounded transition" title="Wishlist">
               <Heart size={18} />
             </button>
             
@@ -109,11 +109,14 @@ export default function Header() {
                 <>
                   <button
                     onClick={toggleUserMenu}
-                    className="p-2 text-gray-700 hover:text-black hover:bg-gray-100 rounded transition flex items-center gap-1"
+                    className="p-2 text-white hover:text-black hover:bg-gray-100 rounded transition flex items-center gap-1"
                     title="Account"
                   >
-                    <User size={18} />
-                    <ChevronDown size={14} className={`transition-transform ${isUserMenuOpen ? 'rotate-180' : ''}`} />
+                    <User size={18} className="text-white" />
+                  <ChevronDown 
+					  size={14} 
+					  className={`text-white transition-transform ${isUserMenuOpen ? 'rotate-180' : ''}`} 
+					/>
                   </button>
                   
                   {/* User Dropdown Menu */}
@@ -155,7 +158,7 @@ export default function Header() {
               ) : (
                 <button
                   onClick={handleLogin}
-                  className="p-2 text-gray-700 hover:text-black hover:bg-gray-100 rounded transition flex items-center gap-1"
+                  className="p-2 text-white hover:text-black hover:bg-gray-100 rounded transition flex items-center gap-1"
                   title="Login"
                 >
                   <User size={18} />
@@ -166,7 +169,7 @@ export default function Header() {
             
             <button 
               onClick={toggleCart}
-              className="p-2 text-gray-700 hover:text-black hover:bg-gray-100 rounded transition relative"
+              className="p-2 text-white hover:text-black hover:bg-gray-100 rounded transition relative"
               title="Cart"
             >
               <ShoppingCart size={18} />
@@ -214,7 +217,7 @@ export default function Header() {
               ))}
               <a
                 href="/sale"
-                className="px-3 py-2 bg-black text-white rounded font-bold hover:bg-gray-800 transition col-span-2 text-center text-sm"
+                className="px-3 py-2 bg-white text-red rounded font-bold hover:bg-gray-800 transition col-span-2 text-center text-sm"
                 onClick={() => setIsMenuOpen(false)}
               >
                 SALE - UP TO 50% OFF

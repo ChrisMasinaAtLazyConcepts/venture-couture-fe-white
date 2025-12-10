@@ -54,17 +54,17 @@ export default function Header() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <a href="/" className="flex items-center flex-shrink-0">
-            <div className="flex items-center">
-            <img 
-				  src="/assets/images/vc.logo.png" 
-				  className="object-contain w-40 h-25" 
-				  alt="Venture Couture" 
-				/>
-				<h2 className=" pr-17 text-gray-300 flex items-baseline">
-				  <span className="align-middle">Venture</span>
-				  <strong className="text-white ml-1 align-middle">Couture</strong>
-				</h2>
-            </div>
+  <div className="flex flex-col items-center">
+  <img 
+    src="/assets/images/vc.logo.png" 
+    className="object-contain w-40 h-25" 
+    alt="Venture Couture" 
+  />
+  <h2 className="text-gray-300 flex items-baseline">
+    <span className="align-middle">Venture</span>
+    <strong className="text-white ml-1 align-middle">Couture</strong>
+  </h2>
+</div>
           </a>
 
           {/* Desktop Navigation with Top Bar items integrated */}
@@ -75,22 +75,29 @@ export default function Header() {
                 <a
                   key={item}
                   href="/"
-                  className="px-3 py-2 text-white hover:text-black hover:bg-gray-100 rounded transition font-medium text-sm"
+                  className="mr-5 px-3 py-2 text-white hover:text-black hover:bg-gray-100 rounded transition font-medium text-sm"
                 >
                   {item}
                 </a>
               ))}
-              <a
-                href="/sale"
-                className="px-3 py-2 bg-white text-red-400 rounded font-bold hover:bg-gray-800 transition text-sm ml-1"
-              >
-                SALE
-              </a>
+ 
+				<a
+				  href="/track-order"
+				  className="px-3 py-2 text-white border border-red/30 hover:border-white/60 rounded transition font-medium text-sm ml-1 hover:bg-white/10"
+				>
+				  Track Order
+				</a>
+          <a
+			  href="/sale"
+			  className="relative px-3 py-2 text-red-400 border border-red-400/30 hover:border-red-400/60 rounded transition font-medium text-sm ml-1 hover:bg-red-400/10 group"
+			>
+			  SALE
+			  <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+			</a>
             </nav>
           </div>
           
-        
-
+    
           {/* Right side icons */}
           <div className="flex items-center gap-2">
             <button 
@@ -189,30 +196,12 @@ export default function Header() {
               {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
-        </div>
+        </div> 
 		  {/* Download our app with phone icon */}
 		<div className=" hidden lg:flex items-center gap-4 pr-4 border-r border-gray-200 justify-self-end">
-  <div className="mr-20 flex gap-4">
-    <span className="flex items-center gap-1 text-gray-100 hover:text-white transition text-sm font-medium">
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-      </svg>
-      Download our app
-    </span>
+ 
   
-  </div>
   
-  <div className="flex items-center gap-4">
-    <a href="/contact" className="text-gray-100 hover:text-white transition text-sm font-medium">
-      Contact
-    </a>
-    <a href="/track-order" className="text-white hover:text-gray-300 transition text-sm font-medium">
-      My Orders
-    </a>
-    <a href="/track-order" className="text-red-600 hover:text-gray-300 transition text-sm font-medium">
-      Track Order
-    </a>
-  </div>
 </div>
         {/* Mobile menu */}
         {isMenuOpen && (

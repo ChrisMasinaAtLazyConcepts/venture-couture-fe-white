@@ -1,4 +1,4 @@
-import { ShoppingCart, Search, User, Heart, Menu, X, Package, FileText, CreditCard, HelpCircle, LogOut, Settings, ChevronDown } from 'lucide-react';
+import { ShoppingCart, Search, User, Heart, Menu, X, Package, FileText, CreditCard, HelpCircle, LogOut, Settings, ChevronDown , Tag } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
@@ -80,13 +80,13 @@ export default function Header() {
                   {item}
                 </a>
               ))}
-                <a
+              <a
 				  href="/sale"
-				  className="mr-4 relative px-4 py-2 text-red-400 rounded transition font-medium text-sm ml-1 hover:bg-red-400/10 overflow-hidden"
+				  className="mr-4 flex items-center px-4 py-2 text-red-400 rounded transition font-medium text-sm ml-1 hover:bg-red-400/10"
 				>
-				
-				  <span className="relative z-10">Sale </span>
-				</a>    
+				  <Tag className="w-3 h-3 mr-2" />
+				  <span>Red Sale</span>
+				</a>
 				<a
 				  href="/track-order"
 				  className="px-3 py-2 text-white border rounded transition font-medium text-sm ml-1 hover:bg-white/10"

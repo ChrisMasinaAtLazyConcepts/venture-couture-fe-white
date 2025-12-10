@@ -61,6 +61,49 @@ const CheckoutPage: React.FC = () => {
           </button>
           <h1 className="text-3xl font-bold text-gray-900">Secure Checkout</h1>
           <p className="text-gray-600 mt-2">Complete your purchase</p>
+		  
+	<div className="right-0">
+<div className="flex items-center gap-4">
+  {/* Visa Logo */}
+  <div className="relative h-6 w-12">
+    <img 
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" 
+      alt="Visa" 
+      className="h-full w-full object-contain"
+    />
+  </div>
+  
+  {/* Mastercard Logo */}
+  <div className="relative h-6 w-12">
+    <img 
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" 
+      alt="Mastercard" 
+      className="h-full w-full object-contain"
+    />
+  </div>
+   {/* Ozow Logo */}
+  <div className="flex items-center justify-center w-12 h-6 bg-white rounded px-1">
+    <span className="text-green-600 font-bold text-sm tracking-wide">OZOW</span>
+  </div>
+   {/* Security Badge */}
+  <div className="flex items-center justify-center w-8 h-8">
+    <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-green-600">
+      <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  </div>
+  
+   {/* Security */}
+  <div className="flex items-center gap-2 text-sm text-gray-600 mt-2">
+    <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4 text-green-600">
+      <path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+    <span>256-bit SSL encryption • PCI compliant</span>
+  </div>
+
+</div>
+</div>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">

@@ -171,7 +171,7 @@ export default function Header() {
             >
               <ShoppingCart size={18} />
               {state.itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full w-4 h-4 flex items-center justify-center font-bold">
+                <span className="bg-red-600 absolute -top-1 -right-1 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center font-bold">
                   {state.itemCount}
                 </span>
               )}
@@ -246,8 +246,9 @@ export default function Header() {
                           : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
                       }`}
                     >
-                      <span className="flex-shrink-0">{item.icon}</span>
+                      <span className="flex-shrink-0 ">{item.icon}</span>
                       <span>{item.label}</span>
+                   Cart
                     </a>
                   ))}
                   {/* Logout button full width */}

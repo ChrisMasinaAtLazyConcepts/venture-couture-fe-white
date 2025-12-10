@@ -84,10 +84,8 @@ export default function Header() {
 				  href="/sale"
 				  className="mr-4 relative px-4 py-2 text-red-400 rounded transition font-medium text-sm ml-1 hover:bg-red-400/10 overflow-hidden"
 				>
-				  <span className="absolute -top-2 -right-6 bg-red-600 text-white text-[7px] font-bold px-8 py-0.5 rotate-45">
-					SALE
-				  </span>
-				  <span className="relative z-10">Shop Now </span>
+				
+				  <span className="relative z-10">Sale </span>
 				</a>    
 				<a
 				  href="/track-order"

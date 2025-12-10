@@ -23,7 +23,7 @@ interface CartState {
 type CartAction =
   | { type: 'ADD_ITEM'; payload: CartItem }
   | { type: 'REMOVE_ITEM'; payload: string }
-  | { type: 'UPDATE_QUANTITY'; payload: { id: string; quantity: number } }
+  | { type: 'UPDATE_QUANTITY'; payload: { id: string; size?: string; color?: string; quantity: number } }
   | { type: 'CLEAR_CART' }
   | { type: 'TOGGLE_CART' }
   | { type: 'OPEN_CHECKOUT' }
@@ -37,19 +37,30 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+const getItemKey = (item: CartItem): string => {
+  // Create a unique key combining id, size, and color
+  return `${item.id}-${item.size || 'default'}-${item.color || 'default'}`;
+};
+
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
     case 'ADD_ITEM': {
-      const existingItem = state.items.find(item => item.id === action.payload.id);
+      const newItemKey = getItemKey(action.payload);
+      const existingItemIndex = state.items.findIndex(item => 
+        getItemKey(item) === newItemKey
+      );
+      
       let updatedItems;
       
-      if (existingItem) {
-        updatedItems = state.items.map(item =>
-          item.id === action.payload.id
-            ? { ...item, quantity: item.quantity + action.payload.quantity }
-            : item
-        );
+      if (existingItemIndex >= 0) {
+        // Item with same id, size, and color exists - update quantity
+        updatedItems = [...state.items];
+        updatedItems[existingItemIndex] = {
+          ...updatedItems[existingItemIndex],
+          quantity: updatedItems[existingItemIndex].quantity + action.payload.quantity
+        };
       } else {
+        // New item - add to cart
         updatedItems = [...state.items, action.payload];
       }
       
@@ -58,45 +69,71 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
         0
       );
       
+      const newItemCount = updatedItems.reduce(
+        (sum, item) => sum + item.quantity,
+        0
+      );
+      
       return {
         ...state,
         items: updatedItems,
-        itemCount: updatedItems.reduce((sum, item) => sum + item.quantity, 0),
+        itemCount: newItemCount,
         total: newTotal,
       };
     }
     
     case 'REMOVE_ITEM': {
-      const updatedItems = state.items.filter(item => item.id !== action.payload);
+      // action.payload is the item key (id-size-color)
+      const updatedItems = state.items.filter(item => 
+        getItemKey(item) !== action.payload
+      );
+      
       const newTotal = updatedItems.reduce(
         (sum, item) => sum + (item.salePrice || item.price) * item.quantity,
+        0
+      );
+      
+      const newItemCount = updatedItems.reduce(
+        (sum, item) => sum + item.quantity,
         0
       );
       
       return {
         ...state,
         items: updatedItems,
-        itemCount: updatedItems.reduce((sum, item) => sum + item.quantity, 0),
+        itemCount: newItemCount,
         total: newTotal,
       };
     }
     
     case 'UPDATE_QUANTITY': {
-      const updatedItems = state.items.map(item =>
-        item.id === action.payload.id
-          ? { ...item, quantity: Math.max(1, action.payload.quantity) }
-          : item
-      );
+      // Find item by id, size, and color
+      const targetKey = `${action.payload.id}-${action.payload.size || 'default'}-${action.payload.color || 'default'}`;
+      
+      const updatedItems = state.items.map(item => {
+        if (getItemKey(item) === targetKey) {
+          return {
+            ...item,
+            quantity: Math.max(1, action.payload.quantity)
+          };
+        }
+        return item;
+      });
       
       const newTotal = updatedItems.reduce(
         (sum, item) => sum + (item.salePrice || item.price) * item.quantity,
         0
       );
       
+      const newItemCount = updatedItems.reduce(
+        (sum, item) => sum + item.quantity,
+        0
+      );
+      
       return {
         ...state,
         items: updatedItems,
-        itemCount: updatedItems.reduce((sum, item) => sum + item.quantity, 0),
+        itemCount: newItemCount,
         total: newTotal,
       };
     }
@@ -107,12 +144,15 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
         items: [],
         itemCount: 0,
         total: 0,
+        isCartOpen: false,
+        showCheckout: false,
       };
     
     case 'TOGGLE_CART':
       return {
         ...state,
         isCartOpen: !state.isCartOpen,
+        showCheckout: false,
       };
     
     case 'OPEN_CHECKOUT':

@@ -1,11 +1,13 @@
 import { ShoppingCart, ChevronRight, Trash2, X } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function CartFooter() {
   const { state, dispatch } = useCart();
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const navigate = useNavigate();
   
   if (state.itemCount === 0 || !isVisible) return null;
 
@@ -14,7 +16,8 @@ export default function CartFooter() {
   };
 
   const toggleCheckout = () => {
-    dispatch({ type: 'OPEN_CHECKOUT' });
+   setIsVisible(false)
+    navigate('/checkout');
   };
 
   const clearCart = () => {

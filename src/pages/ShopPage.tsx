@@ -381,13 +381,27 @@ export default function ShopPage() {
       {/* Hero Section */}
       <div className="bg-pink/90 text-white py-16">
       <div className="container mx-auto px-4 text-center">
-  <h1 className="text-4xl md:text-5xl font-bold mb-4 text-black">
-    Shop Authentic African Fashion
-  </h1>
-  <p className="text-xl text-red-500">
-    Discover handcrafted pieces that celebrate heritage and style
-  </p>
+	 <div className="container flex flex-col md:flex-row items-center gap-8 md:gap-12">
+  {/* Image Column */}
+  <div className="md:w-1/2">
+    <img 
+      src="/assets/images/basket.png" 
+      alt="basket" 
+      className="h-[30%] w-[50%] object-contain max-h-96 md:max-h-none"
+    />
+  </div>
+  
+  {/* Text Column */}
+  <div className="md:w-1/2 text-center md:text-left">
+    <h1 className="text-4xl md:text-5xl font-bold mb-4 text-black">
+      Shop Authentic local and International brands
+    </h1>
+    <p className="text-xl text-red-500">
+      You hahve access to over 200 Brands from the comfort of your home!
+    </p>
+  </div>
 </div>
+   </div>
       </div>
 
       {/* Main Content */}

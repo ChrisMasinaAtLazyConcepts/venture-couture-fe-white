@@ -235,8 +235,8 @@ const sampleSaleProducts: ProductWithImage[] = [
             transition={{ duration: 0.6 }}
           >
             <div className="flex items-center justify-center mb-4">
-              <Tag className="w-8 h-8 mr-3" />
-              <h1 className="text-5xl font-bold text-black">SALE</h1>
+              <Tag className="w-8 h-8 mr-3 text-red-600" />
+              <h1 className="text-5xl font-bold text-red-600">RED SALE</h1>
             </div>
             <p className="text-xl text-red-500 mb-8">Limited Time Offers - Don't Miss Out!</p>
             <div className="flex items-center justify-center space-x-4 text-sm">

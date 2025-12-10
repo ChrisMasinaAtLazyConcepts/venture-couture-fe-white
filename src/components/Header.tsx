@@ -190,8 +190,27 @@ export default function Header() {
             </button>
           </div>
         </div>
-<div className="flex justify-end">
-  <div className="hidden lg:flex items-center gap-4 pr-4 border-r border-gray-200">
+		  {/* Download our app with phone icon */}
+		<div className="hidden lg:flex items-center gap-4 pr-4 border-r border-gray-200 justify-self-end">
+  <div className="flex items-r gap-4">
+    <span className="flex items-center gap-1 text-gray-100 hover:text-white transition text-sm font-medium">
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+      </svg>
+      Download our app
+    </span>
+    
+    <span className="flex items-center gap-1 text-gray-100 hover:text-white transition text-sm font-medium">
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+      </svg>
+      Shop over 200 brands
+    </span>
+  </div>
+  
+  <div className="h-4 w-px bg-gray-400"></div>
+  
+  <div className="flex items-center gap-4">
     <a href="/contact" className="text-gray-100 hover:text-white transition text-sm font-medium">
       Contact
     </a>

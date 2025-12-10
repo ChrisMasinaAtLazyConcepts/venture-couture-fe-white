@@ -55,7 +55,7 @@ export default function Header() {
           {/* Logo */}
           <a href="/" className="flex items-center flex-shrink-0">
             <div className="flex items-center">
-              <img src="/assets/images/vc.logo1.png" className="object-contain w-60 h-20" />
+              <img src="/assets/images/vc.logo1.png" className="object-contain w-60 h-20" alt="Venture Couture" />
             </div>
           </a>
 
@@ -246,9 +246,8 @@ export default function Header() {
                           : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
                       }`}
                     >
-                      <span className="flex-shrink-0 ">{item.icon}</span>
+                      <span className="flex-shrink-0">{item.icon}</span>
                       <span>{item.label}</span>
-                   Cart
                     </a>
                   ))}
                   {/* Logout button full width */}

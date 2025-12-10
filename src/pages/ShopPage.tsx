@@ -397,7 +397,7 @@ export default function ShopPage() {
       Shop Authentic local and International brands
     </h1>
     <p className="text-xl text-red-500">
-      You hahve access to over 200 Brands from the comfort of your home!
+      Get access to over 200 Brands from the comfort of your home!
     </p>
   </div>
 </div>

@@ -14,6 +14,7 @@ import CheckoutModal from './components/CheckoutModal';
 import { CartProvider } from './contexts/CartContext'; // Make sure this path is correct
 import CartFooter from './components/CartFooter';
 import CartModal from './components/CartModal';
+import PromoVideo from './components/PromoVideo';
 
 
 function AppContent() {
@@ -36,6 +37,7 @@ function AppContent() {
       <Footer />
       <CartModal /> 
       <CheckoutModal />
+      <PromoVideo />
     </div>
   );
 }

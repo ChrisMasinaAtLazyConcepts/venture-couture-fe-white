@@ -12,6 +12,7 @@ export default function CartFooter() {
   if (state.itemCount === 0 || !isVisible) return null;
 
   const toggleCart = () => {
+   setIsVisible(false)
     dispatch({ type: 'TOGGLE_CART' });
   };
 

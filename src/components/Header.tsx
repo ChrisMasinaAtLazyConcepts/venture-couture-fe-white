@@ -55,7 +55,11 @@ export default function Header() {
           {/* Logo */}
           <a href="/" className="flex items-center flex-shrink-0">
             <div className="flex items-center">
-              <img src="/assets/images/vc.logo.png" className="object-contain w-60 h-23" alt="Venture Couture" />
+            <img 
+				  src="/assets/images/vc.logo.png" 
+				  className="object-contain w-40 h-25" 
+				  alt="Venture Couture" 
+				/>
             </div>
           </a>
 

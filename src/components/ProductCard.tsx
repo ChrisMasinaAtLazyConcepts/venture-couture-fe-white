@@ -83,13 +83,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
           }`}
         >
           <div className="flex gap-2">
-            <button
-              onClick={addToCart}
-              className="bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-lg transition"
-            > <span className='text=white'> Add to cart</span>
-              <ShoppingBag className="w-5 h-5" />
-           
-            </button>
+          <button
+			  onClick={addToCart}
+			  className="flex items-center gap-2 bg-green-800 hover:bg-green-700 text-white p-2 rounded-lg transition"
+			>
+			  <ShoppingBag className="w-5 h-5" />
+			  <span>Add to cart</span>
+			</button>
             <button className="w-12 h-12 bg-white hover:bg-orange-600 text-gray-900 hover:text-white rounded-lg transition-all flex items-center justify-center">
               <Eye size={18} />
             </button>

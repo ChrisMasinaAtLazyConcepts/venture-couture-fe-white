@@ -11,7 +11,7 @@ export default function Header() {
   
   // Mock user authentication state - you can replace this with actual auth logic
   const [isLoggedIn, setIsLoggedIn] = useState(true); // Change to false for logged out state
-  const [userName] = useState('John Doe');
+  const [userName] = useState('Kalenda@gmail.com');
 
   const toggleCart = () => {
     dispatch({ type: 'TOGGLE_CART' });

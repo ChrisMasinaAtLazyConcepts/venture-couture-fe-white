@@ -50,22 +50,26 @@ export default function PromoVideo() {
     <div className="fixed bottom-4 right-4 z-50 animate-fade-in-up">
       <div className="relative w-[190px] h-[160px] rounded-lg overflow-hidden shadow-2xl border-2 border-white/20 hover:scale-105 transition-transform duration-300">
         {/* Video Player */}
-        <video
-          ref={videoRef}
-          className="w-full h-full object-cover"
-          muted
-          autoPlay
-          playsInline
-          onEnded={handleVideoEnd}
-          title="Fashion Promotion"
-        >
-          {/* You can replace this with your actual video source */}
-          <source
-            src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
-            type="video/mp4"
-          />
-          Your browser does not support the video tag.
-        </video>
+      <div className="relative w-full min-h-screen overflow-hidden">
+  {/* YouTube Embed Container */}
+  <div className="absolute inset-0 z-0">
+    <iframe
+      src="https://www.youtube.com/embed/7b5U9JnZxEM?autoplay=1&mute=1&controls=0&showinfo=0&modestbranding=1&rel=0&playsinline=1&loop=1&playlist=7b5U9JnZxEM"
+      className="w-full h-full object-cover"
+      frameBorder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      title="Levi's Ad"
+      allowFullScreen={false}
+    />
+    
+    {/* Dark overlay for text contrast */}
+    <div className="absolute inset-0 bg-black/50"></div>
+    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+  </div>
+  
+  {/* Rest of your content remains the same */}
+  {/* ... */}
+</div>
 
         {/* Close Button */}
         <button

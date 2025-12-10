@@ -80,21 +80,23 @@ export default function Header() {
                   {item}
                 </a>
               ))}
- 
+                <a
+				  href="/sale"
+				  className="mr-4 relative px-4 py-2 text-red-400 rounded transition font-medium text-sm ml-1 hover:bg-red-400/10 overflow-hidden"
+				>
+				  <span className="absolute -top-2 -right-6 bg-red-600 text-white text-[7px] font-bold px-8 py-0.5 rotate-45">
+					SALE
+				  </span>
+				  <span className="relative z-10">Shop Now </span>
+				</a>    
 				<a
 				  href="/track-order"
-				  className="px-3 py-2 text-white border border-red/30 hover:border-white/60 rounded transition font-medium text-sm ml-1 hover:bg-white/10"
+				  className="px-3 py-2 text-white border rounded transition font-medium text-sm ml-1 hover:bg-white/10"
 				>
 				  Track Order
 				</a>
-          <a
-			  href="/sale"
-			  className="relative px-3 py-2 text-red-400 border border-red-400/30 hover:border-red-400/60 rounded transition font-medium text-sm ml-1 hover:bg-red-400/10 group"
-			>
-			  SALE
-			  <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-			</a>
-            </nav>
+				
+        </nav>
           </div>
           
     

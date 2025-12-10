@@ -49,6 +49,12 @@ export default function Header() {
 
   return (
     <header className="bg-black sticky top-0 z-50 shadow-sm">
+	<div className="container flex justify-center items-center">
+		<h2 className="text-gray-300 flex items-baseline">
+		<span className="align-middle">Venture</span>
+		<strong className="text-white ml-1 align-middle">Couture</strong>
+	  </h2>
+   </div>
       <div className="container mx-auto px-4 py-3">
         {/* Main header - all items in one line */}
         <div className="flex items-center justify-between">
@@ -60,10 +66,7 @@ export default function Header() {
     className="object-contain w-40 h-25" 
     alt="Venture Couture" 
   />
-  <h2 className="text-gray-300 flex items-baseline">
-    <span className="align-middle">Venture</span>
-    <strong className="text-white ml-1 align-middle">Couture</strong>
-  </h2>
+  
 </div>
           </a>
 

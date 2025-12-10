@@ -60,6 +60,10 @@ export default function Header() {
 				  className="object-contain w-40 h-25" 
 				  alt="Venture Couture" 
 				/>
+				<h2 className=" pr-17 text-gray-300 flex items-baseline">
+				  <span className="align-middle">Venture</span>
+				  <strong className="text-white ml-1 align-middle">Couture</strong>
+				</h2>
             </div>
           </a>
 
@@ -85,14 +89,7 @@ export default function Header() {
             </nav>
           </div>
           
-          <div className="hidden lg:flex items-center gap-4 pr-4 border-r border-gray-200">
-            <a href="/contact" className="text-gray-100 hover:text-black transition text-sm font-medium">
-              Contact
-            </a>
-            <a href="/track-order" className="text-red-600 hover:text-black transition text-sm font-medium">
-              Track Order
-            </a>
-          </div>
+        
 
           {/* Right side icons */}
           <div className="flex items-center gap-2">
@@ -193,7 +190,19 @@ export default function Header() {
             </button>
           </div>
         </div>
-
+<div className="flex justify-end">
+  <div className="hidden lg:flex items-center gap-4 pr-4 border-r border-gray-200">
+    <a href="/contact" className="text-gray-100 hover:text-white transition text-sm font-medium">
+      Contact
+    </a>
+    <a href="/track-order" className="text-white hover:text-gray-300 transition text-sm font-medium">
+      My Orders
+    </a>
+    <a href="/track-order" className="text-red-600 hover:text-gray-300 transition text-sm font-medium">
+      Track Order
+    </a>
+  </div>
+</div>
         {/* Mobile menu */}
         {isMenuOpen && (
           <nav className="lg:hidden border-t border-gray-200 pt-4 mt-3">

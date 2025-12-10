@@ -49,8 +49,10 @@ export default function Footer() {
             <div className="flex items-center gap-2 mb-4">
               <div className="hidden sm:block">
 			   <img src="/assets/images/vc.logo.png" className="object-contain w-20 h-20" alt="Venture Couture" />
-            
-               <h1 className="text-white text3xl"><strong>Venture Couture Online</strong></h1>
+              <h2 className="pt-6 pr-17 text-gray-300 flex items-baseline">
+				  <span className="align-middle">Venture</span>
+				  <strong className="text-white ml-1 align-middle">Couture</strong>
+				</h2>
               </div>
             </div>
             <p className="text-gray-400 text-sm mb-6">

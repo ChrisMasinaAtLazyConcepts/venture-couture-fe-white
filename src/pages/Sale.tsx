@@ -4,6 +4,7 @@ import { ArrowRight, Star, ShoppingBag, Clock, Tag } from 'lucide-react';
 import { supabase, Product } from '../lib/supabase';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import ImageSlider from '../components/ImageSlider';
 
 interface ProductWithImage extends Product {
   image_url: string;
@@ -220,11 +221,13 @@ const sampleSaleProducts: ProductWithImage[] = [
   }
 ];
 
+
+
   const displayProducts = saleProducts.length > 0 ? saleProducts : sampleSaleProducts;
 
   return (
     <div className="min-h-screen bg-gray-50">
-
+ 
       {/* Hero Section */}
       {/* <div className="bg-[#B84037]  text-white py-16"> */}
          <div className="text-black py-16">
@@ -234,20 +237,113 @@ const sampleSaleProducts: ProductWithImage[] = [
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="flex items-center justify-center mb-4">
-              <Tag className="w-8 h-8 mr-3 text-red-600" />
-              <h1 className="text-5xl font-bold text-red-600">RED SALE</h1>
-            </div>
-            <p className="text-xl text-red-500 mb-8">Limited Time Offers - Don't Miss Out!</p>
-            <div className="flex items-center justify-center space-x-4 text-sm">
-              <div className="flex items-center bg-white/20 px-3 py-1 rounded-full">
-                <Clock className="w-4 h-4 mr-1" />
-                <span>Ends Soon</span>
-              </div>
-              <div className="flex items-center bg-white/20 px-3 py-1 rounded-full">
-                <span>Up to 50% Off</span>
-              </div>
-            </div>
+         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <ImageSlider/>
+
+  {/* Premium Red Sale Banner */}
+<div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-red-50 via-white to-red-50 border-2 border-red-100 shadow-2xl shadow-red-200/30 hover:shadow-red-300/50 transition-all duration-500 hover:scale-[1.02]">
+  {/* Background Decoration */}
+  <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,#fecaca_0%,transparent_50%)]" />
+  
+  <div className="relative flex flex-col md:flex-row items-center justify-between p-8 md:p-10">
+    {/* Left Content - Sale Info */}
+    <div className="md:w-1/2 text-center md:text-left mb-8 md:mb-0 md:pr-10">
+      {/* Sale Badge */}
+      <div className="inline-flex items-center justify-center mb-6 px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 rounded-full shadow-lg">
+        <Tag className="w-6 h-6 text-white mr-2" />
+        <span className="text-white font-semibold tracking-wider">LIMITED TIME</span>
+      </div>
+      
+      {/* Main Heading */}
+      <h1 className="text-5xl md:text-6xl font-black mb-4 tracking-tight">
+        <span className="bg-gradient-to-r from-red-600 via-red-700 to-red-800 bg-clip-text text-transparent">
+          RED SALE
+        </span>
+        <br />
+       
+      </h1>
+      
+      {/* Subheading */}
+      <p className="text-xl md:text-2xl font-medium text-gray-700 mb-6 leading-relaxed">
+        Exclusive Premium Collection
+      </p>
+      
+      {/* Discount Badge */}
+      <div className="inline-block relative mb-8">
+        <div className="absolute inset-0 bg-red-500 rounded-xl -rotate-3"></div>
+        <div className="relative bg-gradient-to-r from-red-600 to-red-700 text-white py-3 px-8 rounded-xl shadow-lg transform rotate-1 hover:rotate-0 transition-transform">
+          <span className="text-3xl md:text-4xl font-black">UP TO 50%</span>
+          <span className="block text-lg font-semibold tracking-wider">OFF SELECTED ITEMS</span>
+        </div>
+      </div>
+      
+      {/* Features List */}
+      <div className="grid grid-cols-2 gap-4 mb-8">
+        {['Premium Brands', 'Free Shipping', 'Easy Returns', '24/7 Support'].map((feature, idx) => (
+          <div key={idx} className="flex items-center">
+            <div className="w-2 h-2 bg-red-500 rounded-full mr-3"></div>
+            <span className="text-gray-700 font-medium">{feature}</span>
+          </div>
+        ))}
+      </div>
+      
+      {/* CTA Button */}
+      <button className="group relative overflow-hidden bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-lg py-4 px-10 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+        <span className="relative z-10 flex items-center justify-center">
+          SHOP THE COLLECTION
+          <svg className="w-5 h-5 ml-3 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </span>
+        <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+      </button>
+    </div>
+    
+    {/* Right Content - Image */}
+    <div className="md:w-1/2 relative">
+      {/* Image Container with Decorative Elements */}
+      <div className="relative">
+        {/* Floating Decorative Elements */}
+        <div className="absolute -top-4 -left-4 w-24 h-24 bg-red-400/20 rounded-full blur-xl"></div>
+        <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-red-500/10 rounded-full blur-xl"></div>
+        
+        {/* Main Image */}
+        <div className="relative z-10">
+         
+          
+          {/* Image Overlay Effect */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent rounded-xl"></div>
+        </div>
+        
+        {/* Discount Tag on Image */}
+        <div className="absolute top-4 right-4 bg-gradient-to-r from-red-500 to-red-600 text-white py-2 px-4 rounded-lg shadow-lg transform -rotate-6">
+          <span className="font-black text-2xl">-50%</span>
+        </div>
+      </div>
+      
+      {/* Additional Info Under Image */}
+      <div className="mt-6 text-center md:text-left">
+        <div className="flex items-center justify-center md:justify-start space-x-4">
+          <div className="text-center">
+            <div className="text-2xl font-black text-red-600">200+</div>
+            <div className="text-sm text-gray-600">Products</div>
+          </div>
+          <div className="h-8 w-px bg-gray-300"></div>
+          <div className="text-center">
+            <div className="text-2xl font-black text-red-600">48</div>
+            <div className="text-sm text-gray-600">Hours Left</div>
+          </div>
+          <div className="h-8 w-px bg-gray-300"></div>
+          <div className="text-center">
+            <div className="text-2xl font-black text-red-600">24</div>
+            <div className="text-sm text-gray-600">Brands</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
           </motion.div>
         </div>
       </div>
@@ -363,7 +459,7 @@ const sampleSaleProducts: ProductWithImage[] = [
                         R{product.sale_price}
                       </span>
                       <span className="text-sm text-gray-500 line-through">
-                        ${product.base_price}
+                        R{product.base_price}
                       </span>
                     </div>
                     

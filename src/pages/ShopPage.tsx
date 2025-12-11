@@ -381,24 +381,33 @@ export default function ShopPage() {
       {/* Hero Section */}
       <div className="bg-pink/90 text-white py-16">
       <div className="container mx-auto px-4 text-center">
-	 <div className="container flex flex-col md:flex-row items-center gap-8 md:gap-12">
   {/* Image Column */}
-  <div className="md:w-1/2">
+ <div className="container flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-4">
+  {/* Image Column */}
+  <div className="container flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-6">
+  {/* Image Column */}
+  <div className="md:w-1/2 flex justify-center md:justify-start">
     <img 
       src="/assets/images/basket.png" 
       alt="basket" 
-      className="h-[30%] w-[50%] object-contain max-h-96 md:max-h-none"
+      className="h-auto w-full max-w-[200px] md:max-w-[300px] object-contain max-h-96 mx-auto md:mx-0"
     />
   </div>
-  
-  {/* Text Column */}
-  <div className="md:w-1/2 text-center md:text-left">
+
+  {/* Text Column - This will stretch fully */}
+  <div className="md:w-1/2 text-center md:text-left w-full">
     <h1 className="text-4xl md:text-5xl font-bold mb-4 text-black">
       Shop Authentic local and International brands
     </h1>
     <p className="text-xl text-red-500">
       Get access to over 200 Brands from the comfort of your home!
     </p>
+  </div>
+</div>
+
+  {/* Text Column */}
+  <div className="md:w-1/2 text-center md:text-left">
+    
   </div>
 </div>
    </div>

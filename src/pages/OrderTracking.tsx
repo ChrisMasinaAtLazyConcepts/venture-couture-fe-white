@@ -14,6 +14,9 @@ export default function OrderTracking() {
   const [vehiclePosition, setVehiclePosition] = useState({ lat: -26.107, lng: 28.058 });
   const animationRef = useRef<number | null>(null);
   const mapContainerRef = useRef<HTMLDivElement>(null);
+  const [isMapSticky, setIsMapSticky] = useState(false);
+  const loadingRef = useRef<HTMLDivElement>(null);
+  const [isLoadingVisible, setIsLoadingVisible] = useState(true);
 
   const mockOrder = {
     orderNumber: 'VC-2025-001',
@@ -150,6 +153,55 @@ export default function OrderTracking() {
     moveTruck();
   };
 
+  // Handle scroll to make map sticky and hide loading state
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      // When scrolled past 200px, make map sticky
+      setIsMapSticky(scrollTop > 200);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  // Use Intersection Observer to hide loading state when map enters viewport
+  useEffect(() => {
+    if (!loadingRef.current || !orderData) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Hide loading state with delay for smooth transition
+            setTimeout(() => {
+              setIsLoadingVisible(false);
+            }, 500);
+            
+            // Initialize map when it becomes visible
+            setTimeout(initMap, 100);
+            
+            // Disconnect observer after first intersection
+            observer.disconnect();
+          }
+        });
+      },
+      {
+        threshold: 0.1, // Trigger when 10% of element is visible
+        rootMargin: '50px' // Add 50px margin to trigger earlier
+      }
+    );
+
+    observer.observe(loadingRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [orderData]);
+
   // Cleanup animation
   useEffect(() => {
     return () => {
@@ -166,14 +218,13 @@ export default function OrderTracking() {
     e.preventDefault();
     if (trackingNumber) {
       setOrderData(mockOrder);
-      // Initialize map after a short delay to ensure DOM is ready
-      setTimeout(initMap, 100);
+      // Reset loading state when tracking new order
+      setIsLoadingVisible(true);
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-
       <div className="bg-gradient-to-r from-orange-50 via-red-50 to-amber-50 text-black py-16">
         <div className="container mx-auto px-4 text-center">
           <Package size={48} className="mx-auto mb-4 text-orange-600" />
@@ -231,10 +282,16 @@ export default function OrderTracking() {
               </div>
 
               {/* Live Tracking Map and Timeline Section */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8 relative">
                 {/* Map Section - Takes 2/3 width */}
                 <div className="lg:col-span-2">
-                  <div className="bg-white rounded-xl shadow-lg p-6 h-full">
+                  <div 
+                    className={`bg-white rounded-xl shadow-lg p-6 h-full transition-all duration-300 ${
+                      isMapSticky 
+                        ? 'sticky top-20 z-[9999] max-h-[80vh] overflow-auto shadow-2xl' 
+                        : 'relative'
+                    }`}
+                  >
                     <div className="flex items-center justify-between mb-6">
                       <div>
                         <h3 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
@@ -253,17 +310,24 @@ export default function OrderTracking() {
                     <div className="relative">
                       <div 
                         ref={mapContainerRef}
-                        className="w-full h-96 rounded-xl overflow-hidden border border-gray-200 shadow-sm"
+                        className={`w-full rounded-xl overflow-hidden border border-gray-200 shadow-sm ${
+                          isMapSticky ? 'h-[60vh]' : 'h-96'
+                        }`}
                       >
-                        {/* Loading state */}
-                        <div className="absolute inset-0 bg-gray-100 flex items-center justify-center z-0">
+                        {/* Loading state - hides when map enters viewport */}
+                        <div 
+                          ref={loadingRef}
+                          className={`absolute inset-0 bg-gray-100 flex items-center justify-center z-0 transition-opacity duration-300 ${
+                            isLoadingVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                          }`}
+                        >
                           <div className="text-center">
                             <div className="w-12 h-12 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                             <p className="text-gray-600">Loading live map...</p>
                           </div>
                         </div>
                       </div>
-
+                      
                       {/* Map Controls Overlay */}
                       <div className="absolute top-4 right-4 flex flex-col gap-2 z-[1000]">
                         <button 
@@ -273,10 +337,21 @@ export default function OrderTracking() {
                         >
                           <Navigation size={20} />
                         </button>
+                        {isMapSticky && (
+                          <button 
+                            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                            className="bg-white p-2 rounded-lg shadow-md hover:bg-gray-50 transition"
+                            title="Back to Top"
+                          >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                            </svg>
+                          </button>
+                        )}
                       </div>
-
+                      
                       {/* Vehicle Status Card */}
-                      <div className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg p-4 shadow-lg z-[1000]">
+                      <div className={`absolute ${isMapSticky ? 'bottom-4 left-4 right-4' : 'bottom-4 left-4 right-4'} bg-white/90 backdrop-blur-sm rounded-lg p-4 shadow-lg z-[1000]`}>
                         <div className="flex items-center justify-between">
                           <div>
                             <p className="text-sm text-gray-500">Current Location</p>
@@ -311,6 +386,24 @@ export default function OrderTracking() {
                         <span className="text-sm text-gray-600">Start/End Points</span>
                       </div>
                     </div>
+
+                    {/* Sticky Map Indicator */}
+                    {isMapSticky && (
+                      <div className="mt-4 p-3 bg-orange-50 border border-orange-200 rounded-lg flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-3 h-3 bg-green-600 rounded-full animate-pulse"></div>
+                          <p className="text-sm font-medium text-orange-800">
+                            Map is pinned for easier tracking • Scroll to see details below
+                          </p>
+                        </div>
+                        <button 
+                          onClick={() => setIsMapSticky(false)}
+                          className="text-sm text-orange-600 hover:text-orange-800 font-medium"
+                        >
+                          Unpin
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
 

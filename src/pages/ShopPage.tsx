@@ -377,10 +377,10 @@ export default function ShopPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-    {/* Hero Section - Premium Image Collage */}
+ {/* Hero Section - Premium Image Collage */}
 <div className="relative overflow-hidden bg-gradient-to-br from-white via-gray-50 to-pink-50 py-16 md:py-24">
   <div className="container mx-auto px-4">
-    <div className="relative flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8">
+    <div className="relative flex flex-col lg:flex-row items-center justify-between gap-24 lg:gap-24"> {/* Increased gap from gap-12 to gap-24 */}
       
       {/* Main Content - Left Side */}
       <div className="lg:w-2/5 text-center lg:text-left space-y-8">
@@ -418,12 +418,10 @@ export default function ShopPage() {
             <div className="text-sm text-gray-600">Support</div>
           </div>
         </div>
-
-      
       </div>
 
-{/* Image Collage - Right Side */}
-<div className="ml-25 mb-25 lg:w-3/5 relative">
+      {/* Image Collage - Right Side - Moved further right and up */}
+      <div className="ml-40 -mt-8 lg:w-3/5 relative lg:translate-x-10"> {/* Increased ml, negative mt, and added translate */}
         {/* Main Basket Container */}
         <div className="relative mx-auto lg:mx-0 max-w-lg">
           {/* Main Basket Image with Glow */}
@@ -466,7 +464,7 @@ export default function ShopPage() {
                 </div>
                 
                 {/* Puma */}
-                <div className="absolute bottom-0 mt-5  left-1/2 -translate-x-1/2 translate-y-1/2">
+                <div className="absolute bottom-0 mt-5 left-1/2 -translate-x-1/2 translate-y-1/2">
                   <div className="w-20 h-20 rounded-2xl p-3 bg-white/95 backdrop-blur-sm border-2 border-gray-100 shadow-2xl transform hover:scale-110 transition-transform duration-300 hover:shadow-red-200">
                     <img
                       src="/assets/images/puma.png"
@@ -505,7 +503,7 @@ export default function ShopPage() {
                 <div className="absolute top-1/4 right-1/4 -translate-y-1/2 translate-x-1/2">
                   <div className="w-16 h-16 rounded-xl p-2 bg-white/90 backdrop-blur-sm border border-gray-200 shadow-lg transform hover:scale-110 transition-transform duration-300 hover:shadow-red-200">
                     <img
-                      src="/assets/images/acics.PNG"
+                      src="/assets/images/acics.png"
                       alt="ASICS"
                       className="w-full h-full object-contain"
                     />
@@ -513,52 +511,26 @@ export default function ShopPage() {
                 </div>
                 
                 {/* Reebok */}
-         {/* Inner Logo Ring - Smaller Circle */}
-<div className="absolute inset-0 flex items-center justify-center animate-spin-reverse-slow">
-  {/* Jordan */}
-  <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2">
-    <div className="w-16 h-16 rounded-xl p-2 bg-white/90 backdrop-blur-sm border border-gray-200 shadow-lg transform hover:scale-110 transition-transform duration-300 hover:shadow-red-200">
-      <img
-        src="/assets/images/jordan.png"
-        alt="Jordan"
-        className="w-full h-full object-contain"
-      />
-    </div>
-  </div>
-  
-  {/* ASICS */}
-  <div className="absolute top-1/4 right-1/4 -translate-y-1/2 translate-x-1/2">
-    <div className="w-16 h-16 rounded-xl p-2 bg-white/90 backdrop-blur-sm border border-gray-200 shadow-lg transform hover:scale-110 transition-transform duration-300 hover:shadow-red-200">
-      <img
-        src="/assets/images/acics.png"
-        alt="ASICS"
-        className="w-full h-full object-contain"
-      />
-    </div>
-  </div>
-  
-  {/* Reebok - Moved 10px to left */}
-  <div className="absolute bottom-1/4 left-[15%] translate-x-1/2 translate-y-1/2">
-    <div className="w-16 h-16 rounded-xl p-2 bg-white/90 backdrop-blur-sm border border-gray-200 shadow-lg transform hover:scale-110 transition-transform duration-300 hover:shadow-red-200">
-      <img
-        src="/assets/images/reebok.png"
-        alt="Reebok"
-        className="w-full h-full object-contain"
-      />
-    </div>
-  </div>
-  
-  {/* Converse - Moved 10px to right */}
-  <div className="absolute bottom-1/4 right-[15%] -translate-x-1/2 translate-y-1/2">
-    <div className="w-16 h-16 rounded-xl p-2 bg-white/90 backdrop-blur-sm border border-gray-200 shadow-lg transform hover:scale-110 transition-transform duration-300 hover:shadow-red-200">
-      <img
-        src="/assets/images/converse.png"
-        alt="Converse"
-        className="w-full h-full object-contain"
-      />
-    </div>
-  </div>
-</div>
+                <div className="absolute bottom-1/4 left-[15%] translate-x-1/2 translate-y-1/2">
+                  <div className="w-16 h-16 rounded-xl p-2 bg-white/90 backdrop-blur-sm border border-gray-200 shadow-lg transform hover:scale-110 transition-transform duration-300 hover:shadow-red-200">
+                    <img
+                      src="/assets/images/reebok.png"
+                      alt="Reebok"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                </div>
+                
+                {/* Converse */}
+                <div className="absolute bottom-1/4 right-[15%] -translate-x-1/2 translate-y-1/2">
+                  <div className="w-16 h-16 rounded-xl p-2 bg-white/90 backdrop-blur-sm border border-gray-200 shadow-lg transform hover:scale-110 transition-transform duration-300 hover:shadow-red-200">
+                    <img
+                      src="/assets/images/converse.png"
+                      alt="Converse"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                </div>
               </div>
 
               {/* Floating Particles */}

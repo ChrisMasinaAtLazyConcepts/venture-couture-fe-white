@@ -1,5 +1,5 @@
-import { ShoppingCart, Search, User, Heart, Menu, X, Package, FileText, CreditCard, HelpCircle, LogOut, Settings, ChevronDown , Tag } from 'lucide-react';
-import { useState } from 'react';
+import { ShoppingCart, Search, User, Heart, Menu, X, Package, FileText, CreditCard, HelpCircle, LogOut, Settings, ChevronDown, Tag } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 
@@ -7,19 +7,82 @@ export default function Header() {
   const { state, dispatch } = useCart();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isTopBarVisible, setIsTopBarVisible] = useState(true);
   const navigate = useNavigate();
   
   // Mock user authentication state - you can replace this with actual auth logic
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // Change to false for logged out state
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [userName] = useState('Kalenda@vc.co.za');
+
+  // Use refs to track scroll state without triggering re-renders
+  const lastScrollYRef = useRef(0);
+  const tickingRef = useRef(false);
+  const isTopBarVisibleRef = useRef(true);
+  const timeoutRef = useRef(null);
+
+  // Throttled scroll handler
+  const handleScroll = () => {
+    const currentScrollY = window.scrollY;
+    lastScrollYRef.current = currentScrollY;
+    
+    // Use requestAnimationFrame for smooth throttling
+    if (!tickingRef.current) {
+      window.requestAnimationFrame(() => {
+        const scrollY = lastScrollYRef.current;
+        const previousScrollY = lastScrollYRef.previous || 0;
+        
+        // Determine if we're scrolling up or down
+        const isScrollingUp = scrollY < previousScrollY;
+        
+        // Show/hide logic
+        let shouldShow = false;
+        
+        if (scrollY <= 100) {
+          // Always show when at or near the top
+          shouldShow = true;
+        } else if (isScrollingUp) {
+          // Show when scrolling up
+          shouldShow = true;
+        } else {
+          // Hide when scrolling down (and not at top)
+          shouldShow = false;
+        }
+        
+        // Only update if state actually needs to change
+        if (shouldShow !== isTopBarVisibleRef.current) {
+          isTopBarVisibleRef.current = shouldShow;
+          setIsTopBarVisible(shouldShow);
+        }
+        
+        // Store previous scroll position
+        lastScrollYRef.previous = scrollY;
+        tickingRef.current = false;
+      });
+      
+      tickingRef.current = true;
+    }
+  };
+
+  useEffect(() => {
+    // Initialize previous scroll position
+    lastScrollYRef.previous = window.scrollY;
+    
+    // Set up scroll listener with passive option for better performance
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Clean up
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   const toggleCart = () => {
     dispatch({ type: 'TOGGLE_CART' });
   };
 
-  const handleAdminLogin = () => {
-    navigate('/admin-login');
-  };
   const toggleUserMenu = () => {
     setIsUserMenuOpen(!isUserMenuOpen);
   };
@@ -27,15 +90,11 @@ export default function Header() {
   const handleLogout = () => {
     setIsLoggedIn(false);
     setIsUserMenuOpen(false);
-    // Add your logout logic here
-    console.log('User logged out');
     navigate('/');
   };
 
   const handleLogin = () => {
     setIsLoggedIn(true);
-    // Add your login logic here
-    console.log('User logged in');
     navigate('/admin-dashboard');
   };
 
@@ -51,39 +110,43 @@ export default function Header() {
 
   return (
     <header className="bg-black sticky top-0 z-50 shadow-sm">
-	<div className="container flex justify-center items-center">
-		<h2 className="text-gray-300 flex items-baseline">
-		<span className="align-middle">Venture</span>
-		<strong className="text-white ml-1 align-middle">Couture</strong>
-	  </h2>
-	   <a
-		  onClick={() => navigate('/admin-login')}
-		  className="px-4 py-2 text-sm font-medium bg-transparent text-white hover:bg-white hover:text-black rounded transition ml-2 hover:border-white"
-		  title="Staff Login"
-		>
-		  VC Login
-		</a>
-   </div>
-   
+      {/* Top Bar with scroll-to-hide functionality */}
+      <div 
+        className={`bg-black py-2 border-b border-gray-800 transition-all duration-300 ease-in-out ${
+          isTopBarVisible 
+            ? 'opacity-100 transform translate-y-0 h-auto' 
+            : 'opacity-0 transform -translate-y-full h-0 overflow-hidden'
+        }`}
+      >
+        <div className="container mx-auto px-4 flex justify-center items-center">
+          <h2 className="text-gray-300 flex items-baseline">
+            <span className="align-middle">Venture</span>
+            <strong className="text-white ml-1 align-middle">Couture</strong>
+          </h2>
+          <button
+            onClick={() => navigate('/admin-login')}
+            className="px-4 py-2 text-sm font-medium bg-transparent text-white hover:bg-white hover:text-black rounded transition ml-2 hover:border-white"
+            title="Staff Login"
+          >
+            VC Login
+          </button>
+        </div>
+      </div>
+      
+      {/* Main Header - rest of your component remains the same */}
       <div className="container mx-auto px-4 py-3">
-        {/* Main header - all items in one line */}
         <div className="flex items-center justify-between">
-          {/* Logo */}
           <a href="/" className="flex items-center flex-shrink-0">
-  <div className="flex flex-col items-center">
-  <img 
-    src="/assets/images/vc.logo.png" 
-    className="object-contain w-40 h-25" 
-    alt="Venture Couture" 
-  />
-  
-</div>
+            <div className="flex flex-col items-center">
+              <img 
+                src="/assets/images/vc.logo.png" 
+                className="object-contain w-40 h-25" 
+                alt="Venture Couture" 
+              />
+            </div>
           </a>
-		  
 
-          {/* Desktop Navigation with Top Bar items integrated */}
           <div className="hidden lg:flex items-center gap-4">
-            {/* Main navigation */}
             <nav className="flex items-center gap-1">
               {['Home', 'Women', 'Men', 'Accessories', 'New', 'Collections'].map((item) => (
                 <a
@@ -95,24 +158,21 @@ export default function Header() {
                 </a>
               ))}
               <a
-				  href="/sale"
-				  className="mr-4 flex items-center px-4 py-2 text-red-400 rounded transition font-medium text-sm ml-1 hover:bg-red-400/10"
-				>
-				  <Tag className="w-3 h-3 mr-2" />
-				  <span>Red Sale</span>
-				</a>
-				<a
-				  href="/track-order"
-				  className="px-3 py-2 text-white border rounded transition font-medium text-sm ml-1 hover:bg-white/10"
-				>
-				  Track Order
-				</a>
-				
-        </nav>
+                href="/sale"
+                className="mr-4 flex items-center px-4 py-2 text-red-400 rounded transition font-medium text-sm ml-1 hover:bg-red-400/10"
+              >
+                <Tag className="w-3 h-3 mr-2" />
+                <span>Red Sale</span>
+              </a>
+              <a
+                href="/track-order"
+                className="px-3 py-2 text-white border rounded transition font-medium text-sm ml-1 hover:bg-white/10"
+              >
+                Track Order
+              </a>
+            </nav>
           </div>
-          
-    
-          {/* Right side icons */}
+
           <div className="flex items-center gap-2">
             <button 
               onClick={() => navigate('/search')}
@@ -125,7 +185,6 @@ export default function Header() {
               <Heart size={18} />
             </button>
             
-            {/* User Account Menu */}
             <div className="relative">
               {isLoggedIn ? (
                 <>
@@ -135,22 +194,19 @@ export default function Header() {
                     title="Account"
                   >
                     <User size={18} className="text-white" />
-                  <ChevronDown 
-					  size={14} 
-					  className={`text-white transition-transform ${isUserMenuOpen ? 'rotate-180' : ''}`} 
-					/>
+                    <ChevronDown 
+                      size={14} 
+                      className={`text-white transition-transform ${isUserMenuOpen ? 'rotate-180' : ''}`} 
+                    />
                   </button>
                   
-                  {/* User Dropdown Menu */}
                   {isUserMenuOpen && (
                     <div className="absolute right-0 top-full mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50 py-2">
-                      {/* User Info */}
                       <div className="px-4 py-3 border-b border-gray-100">
                         <p className="font-medium text-gray-900">{userName}</p>
                         <p className="text-sm text-gray-600">Premium Member</p>
                       </div>
                       
-                      {/* Menu Items */}
                       <div className="py-1">
                         {userMenuItems.map((item, index) => (
                           <a
@@ -202,7 +258,6 @@ export default function Header() {
               )}
             </button>
             
-            {/* Mobile menu button */}
             <button
               className="lg:hidden p-2 text-gray-700 hover:text-black hover:bg-gray-100 rounded transition ml-1"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -210,33 +265,26 @@ export default function Header() {
               {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
-        </div> 
-		  {/* Download our app with phone icon */}
-		<div className=" hidden lg:flex items-center gap-4 pr-4 border-r border-gray-200 justify-self-end">
- 
-  
+        </div>
 
-</div>
-        {/* Mobile menu */}
+        {/* Mobile menu - rest of your mobile menu code remains the same */}
         {isMenuOpen && (
-          <nav className="lg:hidden border-t border-gray-200 pt-4 mt-3">
-            {/* Mobile Top Bar Items */}
-            <div className="pl-10 flex flex-wrap gap-3 mb-4 pb-4 border-b border-gray-200">
-              <a href="/contact" className="text-gray-600 hover:text-black transition text-sm font-medium">
+          <nav className="lg:hidden border-t border-gray-800 pt-4 mt-3">
+            <div className="pl-10 flex flex-wrap gap-3 mb-4 pb-4 border-b border-gray-800">
+              <a href="/contact" className="text-gray-400 hover:text-white transition text-sm font-medium">
                 Contact
               </a>
-              <a href="/track-order" className="text-gray-600 hover:text-black transition text-sm font-medium">
+              <a href="/track-order" className="text-gray-400 hover:text-white transition text-sm font-medium">
                 Track Order
               </a>
             </div>
             
-            {/* Mobile Navigation */}
             <div className="grid grid-cols-2 gap-2 mb-4">
               {['Home', 'Women', 'Men', 'Accessories', 'New Arrivals', 'Collections', 'Size Guide', 'About Us'].map((item) => (
                 <a
                   key={item}
                   href={`/${item.toLowerCase().replace(' ', '-')}`}
-                  className="px-3 py-2 text-gray-800 hover:text-black hover:bg-gray-100 rounded transition font-medium text-sm"
+                  className="px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded transition font-medium text-sm"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item}
@@ -251,12 +299,11 @@ export default function Header() {
               </a>
             </div>
 
-            {/* Mobile User Menu (only shows if logged in) */}
             {isLoggedIn && (
-              <div className="border-t border-gray-200 pt-4">
+              <div className="border-t border-gray-800 pt-4">
                 <div className="px-4 mb-3">
-                  <p className="font-medium text-gray-900">{userName}</p>
-                  <p className="text-sm text-gray-600">Premium Member</p>
+                  <p className="font-medium text-gray-300">{userName}</p>
+                  <p className="text-sm text-gray-400">Premium Member</p>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   {userMenuItems.slice(0, 6).map((item, index) => (
@@ -272,21 +319,20 @@ export default function Header() {
                       }}
                       className={`flex items-center gap-2 px-3 py-2 text-sm rounded transition ${
                         item.isDanger 
-                          ? 'text-red-600 hover:bg-red-50 hover:text-red-700' 
-                          : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                          ? 'text-red-400 hover:bg-red-900/30 hover:text-red-300' 
+                          : 'text-gray-300 hover:bg-gray-800 hover:text-white'
                       }`}
                     >
                       <span className="flex-shrink-0">{item.icon}</span>
                       <span>{item.label}</span>
                     </a>
                   ))}
-                  {/* Logout button full width */}
                   <button
                     onClick={() => {
                       handleLogout();
                       setIsMenuOpen(false);
                     }}
-                    className="col-span-2 flex items-center justify-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 rounded transition mt-2"
+                    className="col-span-2 flex items-center justify-center gap-2 px-3 py-2 text-sm text-red-400 hover:bg-red-900/30 hover:text-red-300 rounded transition mt-2"
                   >
                     <LogOut size={16} />
                     <span>Logout</span>
@@ -295,20 +341,19 @@ export default function Header() {
               </div>
             )}
 
-            {/* Mobile Login Button (only shows if logged out) */}
             {!isLoggedIn && (
-              <div className="border-t border-gray-200 pt-4">
+              <div className="border-t border-gray-800 pt-4">
                 <button
                   onClick={() => {
                     handleLogin();
                     setIsMenuOpen(false);
                   }}
-                  className="w-full flex items-center justify-center gap-2 px-3 py-3 bg-gray-900 text-white rounded font-medium hover:bg-black transition"
+                  className="w-full flex items-center justify-center gap-2 px-3 py-3 bg-gray-800 text-white rounded font-medium hover:bg-gray-700 transition"
                 >
                   <User size={18} />
                   <span>Login / Register</span>
                 </button>
-                <p className="text-center text-sm text-gray-600 mt-2">
+                <p className="text-center text-sm text-gray-400 mt-2">
                   Access your orders, wishlist, and more
                 </p>
               </div>

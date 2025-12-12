@@ -11,7 +11,7 @@ export default function Header() {
   
   // Mock user authentication state - you can replace this with actual auth logic
   const [isLoggedIn, setIsLoggedIn] = useState(true); // Change to false for logged out state
-  const [userName] = useState('Kalenda@gmail.com');
+  const [userName] = useState('Kalenda@vc.co.za');
 
   const toggleCart = () => {
     dispatch({ type: 'TOGGLE_CART' });
@@ -42,7 +42,6 @@ export default function Header() {
     { icon: <FileText size={16} />, label: 'Invoices', href: '/invoices' },
     { icon: <Package size={16} />, label: 'Returns & Exchanges', href: '/returns' },
     { icon: <CreditCard size={16} />, label: 'Manage Payment Methods', href: '/payment-methods' },
-    { icon: <Settings size={16} />, label: 'Account Settings', href: '/settings' },
     { icon: <HelpCircle size={16} />, label: 'Support', href: '/support' },
     { icon: <LogOut size={16} />, label: 'Logout', onClick: handleLogout, isDanger: true },
   ];

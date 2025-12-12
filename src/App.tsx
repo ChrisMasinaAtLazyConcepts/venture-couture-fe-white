@@ -6,8 +6,13 @@ import ProductManagement from './pages/ProductManagement';
 import OrderTracking from './pages/OrderTracking';
 import AnalyticsDashboard from './pages/AnalyticsDashboard';
 import AdminDashboard from './pages/AdminDashboard';
-import CheckoutPage from './pages/CheckoutPage';PaymentMethodsPage
+import CheckoutPage from './pages/CheckoutPage';
 import PaymentMethodsPage from './pages/PaymentMethodsPage';
+import RefundsAndReturnsPage from './pages/RefundsAndReturnsPage';
+import PastPurchachesPage from './pages/PastPurchachesPage';
+import InvoicesPage from './pages/InvoicesPage';
+import SupportPage from './pages/SupportPage';
+import ProfilePage from './pages/ProfilePage';
 import HomePage from './pages/HomePage';
 import ProductSearch from './pages/ProductSearch';
 import Sale from './pages/Sale';
@@ -27,6 +32,9 @@ function AppContent() {
           <Route path="/" element={<HomePage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/payment-methods" element={<PaymentMethodsPage />} />
+          <Route path="/orders" element={<PastPurchachesPage />} />
+          <Route path="/invoices" element={<InvoicesPage />} />
+          <Route path="/returns" element={<RefundsAndReturnsPage />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/products" element={<ProductManagement />} />
           <Route path="/search" element={<ProductSearch />} />
@@ -34,6 +42,8 @@ function AppContent() {
           <Route path="/track-order" element={<OrderTracking />} />
           <Route path="/dashboard" element={<AnalyticsDashboard />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/support" element={<SupportPage />} />
         </Routes>
       </main>
       <Footer />

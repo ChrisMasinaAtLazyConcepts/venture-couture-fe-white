@@ -114,7 +114,7 @@ export default function Header() {
 
   const handleLogin = () => {
     setIsLoggedIn(true);
-    navigate('/admin-dashboard');
+  window.open('/admin-login', '_blank');
   };
 
   const userMenuItems = [
@@ -131,7 +131,7 @@ export default function Header() {
     <header className="bg-black sticky top-0 z-50 shadow-sm">
       {/* Top Bar - VC Login Section */}
       <div 
-        className={`bg-black border-b border-gray-800 transition-all duration-300 ease-in-out ${
+        className={`bg-black h-5 transition-all duration-300 ease-in-out ${
           showTopBar 
             ? 'translate-y-0 opacity-100 h-auto' // Visible state
             : '-translate-y-full opacity-0 h-0 overflow-hidden' // Hidden state

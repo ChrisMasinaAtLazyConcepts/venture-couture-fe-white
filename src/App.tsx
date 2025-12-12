@@ -59,7 +59,7 @@ function AppContent() {
           <Route path="/support" element={<SupportPage />} />
         </Routes>
       </main>
-      <Footer />
+{!isAdminRoute && <Footer />}
       <CartModal /> 
       <CheckoutModal />
       

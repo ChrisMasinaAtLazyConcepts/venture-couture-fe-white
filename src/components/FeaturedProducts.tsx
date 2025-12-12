@@ -175,7 +175,7 @@ export default function FeaturedProducts() {
             <div className="absolute inset-0 flex items-center justify-center z-5">
               <div className="text-center text-white px-4">
                 <h3 className="text-5xl font-bold mb-4 drop-shadow-2xl">
-                  Winter Collection 2024
+                  Winter Collection 2026
                 </h3>
                 <p className="text-xl opacity-90 drop-shadow-lg">
                   Discover our cozy African-inspired winter essentials
@@ -191,7 +191,8 @@ export default function FeaturedProducts() {
           </h2>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
             Handpicked pieces that showcase the beauty and diversity of African fashion
-          </p>
+          </p>2026
+		  
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

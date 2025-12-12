@@ -41,7 +41,7 @@ export default function Header() {
     { icon: <Package size={16} />, label: 'Past Purchases', href: '/orders' },
     { icon: <FileText size={16} />, label: 'Invoices', href: '/invoices' },
     { icon: <Package size={16} />, label: 'Returns & Exchanges', href: '/returns' },
-    { icon: <CreditCard size={16} />, label: 'Manage Cards', href: '/payment-methods' },
+    { icon: <CreditCard size={16} />, label: 'Manage Payment Methods', href: '/payment-methods' },
     { icon: <Settings size={16} />, label: 'Account Settings', href: '/settings' },
     { icon: <HelpCircle size={16} />, label: 'Support', href: '/support' },
     { icon: <LogOut size={16} />, label: 'Logout', onClick: handleLogout, isDanger: true },

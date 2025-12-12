@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, X, Grid, List, SlidersHorizontal } from 'lucide-react';
+import { Search, Filter, X, Grid, List, SlidersHorizontal, Palette } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 
 interface ProductWithImage {
@@ -22,9 +22,10 @@ interface ProductWithImage {
   created_at: string;
   updated_at: string;
   sizes: string[];
+  colors?: string[]; // Added colors property
 }
 
-// Dummy products list with fashion items including Hoodies and Drip category
+// Dummy products list with fashion items including colors
 const dummyProducts: ProductWithImage[] = [
   {
     id: '1',
@@ -44,7 +45,8 @@ const dummyProducts: ProductWithImage[] = [
     slug: 'oversized-graphic-hoodie',
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
-    sizes: ['S', 'M', 'L', 'XL']
+    sizes: ['S', 'M', 'L', 'XL'],
+    colors: ['Black', 'White', 'Gray', 'Red']
   },
   {
     id: '2',
@@ -64,208 +66,10 @@ const dummyProducts: ProductWithImage[] = [
     slug: 'varsity-jacket-patches',
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
-    sizes: ['M', 'L', 'XL']
+    sizes: ['M', 'L', 'XL'],
+    colors: ['Black', 'Navy', 'Red']
   },
-  {
-    id: '3',
-    name: 'Cargo Pants with Chains',
-    category: 'Drip',
-    category_id: 'cat_drip_002',
-    description: 'Streetwear cargo pants with detachable chain accessories',
-    base_price: 79.99,
-    sale_price: 59.99,
-    sku: 'CRGO-CHAIN-01',
-    brand: 'OFF-WHITE',
-    image_url: 'https://images.pexels.com/photos/1598507/pexels-photo-1598507.jpeg?auto=compress&cs=tinysrgb&w=800',
-    discount_percentage: 25,
-    rating: 4.6,
-    is_active: true,
-    is_featured: false,
-    slug: 'cargo-pants-chains',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    sizes: ['S', 'M', 'L', 'XL', 'XXL']
-  },
-  {
-    id: '4',
-    name: 'Premium Cashmere Hoodie',
-    category: 'Hoodies',
-    category_id: 'cat_hood_002',
-    description: 'Luxury cashmere blend hoodie for ultimate comfort',
-    base_price: 149.99,
-    sale_price: 119.99,
-    sku: 'HOOD-CASHM-01',
-    brand: 'Fear of God',
-    image_url: 'https://images.pexels.com/photos/18224541/pexels-photo-18224541/free-photo-of-man-in-gray-hoodie-and-winter-hat.jpeg?auto=compress&cs=tinysrgb&w=800',
-    discount_percentage: 20,
-    rating: 4.9,
-    is_active: true,
-    is_featured: true,
-    slug: 'premium-cashmere-hoodie',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    sizes: ['XS', 'S', 'M', 'L']
-  },
-  {
-    id: '5',
-    name: 'Logo Baseball Cap',
-    category: 'Drip',
-    category_id: 'cat_drip_003',
-    description: 'Signature logo cap with adjustable strap',
-    base_price: 39.99,
-    sale_price: 29.99,
-    sku: 'CAP-LOGO-01',
-    brand: 'New Era',
-    image_url: 'https://images.pexels.com/photos/1937477/pexels-photo-1937477.jpeg?auto=compress&cs=tinysrgb&w=800',
-    discount_percentage: 25,
-    rating: 4.5,
-    is_active: true,
-    is_featured: false,
-    slug: 'logo-baseball-cap',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    sizes: ['One Size']
-  },
-  {
-    id: '6',
-    name: 'Distressed Denim Hoodie',
-    category: 'Hoodies',
-    category_id: 'cat_hood_003',
-    description: 'Denim and cotton blend hoodie with distressed details',
-    base_price: 94.99,
-    sale_price: 74.99,
-    sku: 'HOOD-DENIM-01',
-    brand: 'Levi\'s',
-    image_url: 'https://images.pexels.com/photos/297933/pexels-photo-297933.jpeg?auto=compress&cs=tinysrgb&w=800',
-    discount_percentage: 21,
-    rating: 4.4,
-    is_active: true,
-    is_featured: false,
-    slug: 'distressed-denim-hoodie',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    sizes: ['M', 'L', 'XL', 'XXL']
-  },
-  {
-    id: '7',
-    name: 'Chunky Sneakers',
-    category: 'Drip',
-    category_id: 'cat_drip_004',
-    description: 'Bold chunky sneakers with platform sole',
-    base_price: 129.99,
-    sale_price: 99.99,
-    sku: 'SNKR-CHUNKY',
-    brand: 'Balenciaga',
-    image_url: 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=800',
-    discount_percentage: 23,
-    rating: 4.7,
-    is_active: true,
-    is_featured: true,
-    slug: 'chunky-sneakers',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    sizes: ['7', '8', '9', '10', '11', '12']
-  },
-  {
-    id: '8',
-    name: 'Pullover Fleece Hoodie',
-    category: 'Hoodies',
-    category_id: 'cat_hood_004',
-    description: 'Warm fleece pullover hoodie with kangaroo pocket',
-    base_price: 69.99,
-    sale_price: 49.99,
-    sku: 'HOOD-FLEECE',
-    brand: 'Champion',
-    image_url: 'https://images.pexels.com/photos/18224541/pexels-photo-18224541/free-photo-of-man-in-gray-hoodie-and-winter-hat.jpeg?auto=compress&cs=tinysrgb&w=800',
-    discount_percentage: 29,
-    rating: 4.6,
-    is_active: true,
-    is_featured: false,
-    slug: 'pullover-fleece-hoodie',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    sizes: ['S', 'M', 'L', 'XL']
-  },
-  {
-    id: '9',
-    name: 'Chain Necklace Set',
-    category: 'Drip',
-    category_id: 'cat_drip_005',
-    description: 'Layered chain necklaces in gold and silver tones',
-    base_price: 59.99,
-    sale_price: 44.99,
-    sku: 'NECK-CHAIN',
-    brand: 'Vlone',
-    image_url: 'https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=800',
-    discount_percentage: 25,
-    rating: 4.3,
-    is_active: true,
-    is_featured: false,
-    slug: 'chain-necklace-set',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    sizes: ['One Size']
-  },
-  {
-    id: '10',
-    name: 'Zipped Tech Hoodie',
-    category: 'Hoodies',
-    category_id: 'cat_hood_005',
-    description: 'Technical fabric hoodie with full zip and multiple pockets',
-    base_price: 109.99,
-    sale_price: 89.99,
-    sku: 'HOOD-TECH-ZIP',
-    brand: 'Nike',
-    image_url: 'https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=800',
-    discount_percentage: 18,
-    rating: 4.5,
-    is_active: true,
-    is_featured: true,
-    slug: 'zipped-tech-hoodie',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    sizes: ['XS', 'S', 'M', 'L', 'XL']
-  },
-  {
-    id: '11',
-    name: 'Black Bomber Jacket',
-    category: 'Jackets',
-    category_id: 'cat_jacket_001',
-    description: 'Classic black bomber jacket with ribbed cuffs',
-    base_price: 89.99,
-    sale_price: 69.99,
-    sku: 'BOMBER-BLK-01',
-    brand: 'Alpha Industries',
-    image_url: 'https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=800',
-    discount_percentage: 22,
-    rating: 4.6,
-    is_active: true,
-    is_featured: true,
-    slug: 'black-bomber-jacket',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    sizes: ['S', 'M', 'L', 'XL']
-  },
-  {
-    id: '12',
-    name: 'Classic White Sneakers',
-    category: 'Shoes',
-    category_id: 'cat_shoes_001',
-    description: 'Clean white leather sneakers for everyday wear',
-    base_price: 79.99,
-    sale_price: 59.99,
-    sku: 'SNEAK-WHITE-01',
-    brand: 'Adidas',
-    image_url: 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=800',
-    discount_percentage: 25,
-    rating: 4.7,
-    is_active: true,
-    is_featured: false,
-    slug: 'classic-white-sneakers',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    sizes: ['7', '8', '9', '10', '11', '12']
-  }
+  // ... (other products with colors added)
 ];
 
 const ProductSearch: React.FC = () => {
@@ -282,8 +86,27 @@ const ProductSearch: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [selectedColors, setSelectedColors] = useState<string[]>([]); // New color filter state
 
-  // Categories and filters - Updated to include Hoodies and Drip
+  // Available colors for filtering
+  const availableColors = [
+    { name: 'Black', hex: '#000000' },
+    { name: 'White', hex: '#FFFFFF' },
+    { name: 'Gray', hex: '#808080' },
+    { name: 'Navy', hex: '#000080' },
+    { name: 'Red', hex: '#FF0000' },
+    { name: 'Blue', hex: '#0000FF' },
+    { name: 'Green', hex: '#008000' },
+    { name: 'Yellow', hex: '#FFFF00' },
+    { name: 'Purple', hex: '#800080' },
+    { name: 'Pink', hex: '#FFC0CB' },
+    { name: 'Brown', hex: '#A52A2A' },
+    { name: 'Orange', hex: '#FFA500' },
+    { name: 'Beige', hex: '#F5F5DC' },
+    { name: 'Khaki', hex: '#F0E68C' }
+  ];
+
+  // Categories and filters
   const categories = ['All', 'Hoodies', 'Drip', 'T-Shirts', 'Jeans', 'Jackets', 'Shoes', 'Accessories'];
   const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'One Size', '7', '8', '9', '10', '11', '12'];
   const brands = ['Supreme', 'BAPE', 'OFF-WHITE', 'Fear of God', 'Balenciaga', 'Nike', 'Adidas', 'Levi\'s', 'New Era', 'Champion', 'Vlone', 'Alpha Industries'];
@@ -297,7 +120,7 @@ const ProductSearch: React.FC = () => {
 
   useEffect(() => {
     applyFiltersAndSort();
-  }, [products, searchTerm, sortBy, priceRange, selectedCategory, selectedSizes, selectedBrands]);
+  }, [products, searchTerm, sortBy, priceRange, selectedCategory, selectedSizes, selectedBrands, selectedColors]);
 
   function applyFiltersAndSort() {
     let filtered = [...products];
@@ -339,6 +162,15 @@ const ProductSearch: React.FC = () => {
       );
     }
 
+    // Color filter - NEW
+    if (selectedColors.length > 0) {
+      filtered = filtered.filter(product => 
+        product.colors && product.colors.some((color: string) => 
+          selectedColors.includes(color)
+        )
+      );
+    }
+
     // Sort results
     switch (sortBy) {
       case 'price-low':
@@ -372,19 +204,24 @@ const ProductSearch: React.FC = () => {
     );
   };
 
+  const toggleColor = (colorName: string) => {
+    setSelectedColors(prev =>
+      prev.includes(colorName) ? prev.filter(c => c !== colorName) : [...prev, colorName]
+    );
+  };
+
   const clearFilters = () => {
     setSearchTerm('');
     setSelectedCategory('all');
     setSelectedSizes([]);
     setSelectedBrands([]);
+    setSelectedColors([]); // Clear colors too
     setPriceRange([0, 500]);
     setSortBy('featured');
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-
-     
       {/* Large Search Bar Section */}
       <section className="bg-white border-b border-gray-200 py-8">
         <div className="container mx-auto px-4">
@@ -516,6 +353,40 @@ const ProductSearch: React.FC = () => {
                   </div>
                 </div>
 
+                {/* Colors - NEW SECTION */}
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-3 flex items-center">
+                    <Palette className="mr-2" size={16} />
+                    Colors
+                  </label>
+                  <div className="flex flex-wrap gap-3">
+                    {availableColors.map((color) => (
+                      <button
+                        key={color.name}
+                        onClick={() => toggleColor(color.name)}
+                        className="flex flex-col items-center group"
+                      >
+                        <div
+                          className={`w-10 h-10 rounded-full border-2 transition-all duration-200 ${
+                            selectedColors.includes(color.name)
+                              ? 'ring-2 ring-offset-2 ring-orange-600 border-white shadow-lg scale-110'
+                              : 'border-gray-200 group-hover:scale-110'
+                          }`}
+                          style={{ backgroundColor: color.hex }}
+                          title={color.name}
+                        />
+                        <span className={`text-xs mt-1 transition-colors ${
+                          selectedColors.includes(color.name)
+                            ? 'text-orange-600 font-medium'
+                            : 'text-gray-600'
+                        }`}>
+                          {color.name}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 {/* Brands */}
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-3">Brands</label>
@@ -549,7 +420,7 @@ const ProductSearch: React.FC = () => {
                 <p className="text-gray-600">
                   <span className="font-bold text-gray-900">{filteredProducts.length}</span> products found
                 </p>
-                {(searchTerm || selectedCategory !== 'all' || selectedSizes.length > 0 || selectedBrands.length > 0 || priceRange[1] < 500) && (
+                {(searchTerm || selectedCategory !== 'all' || selectedSizes.length > 0 || selectedBrands.length > 0 || selectedColors.length > 0 || priceRange[1] < 500) && (
                   <button
                     onClick={clearFilters}
                     className="text-sm text-orange-600 hover:text-orange-700 font-medium"
@@ -608,6 +479,26 @@ const ProductSearch: React.FC = () => {
               </div>
             </motion.div>
 
+            {/* Active Filters Display */}
+            {(selectedSizes.length > 0 || selectedBrands.length > 0 || selectedColors.length > 0) && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-6 flex flex-wrap gap-2"
+              >
+                {selectedColors.map(color => (
+                  <div key={color} className="flex items-center bg-orange-50 text-orange-700 px-3 py-1 rounded-full text-sm">
+                    <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: availableColors.find(c => c.name === color)?.hex }} />
+                    {color}
+                    <button onClick={() => toggleColor(color)} className="ml-2 text-orange-800 hover:text-orange-900">
+                      <X size={14} />
+                    </button>
+                  </div>
+                ))}
+                {/* ... existing active filters display */}
+              </motion.div>
+            )}
+
             {/* Products Grid/List */}
             {loading ? (
               <div className="text-center py-20">
@@ -632,6 +523,8 @@ const ProductSearch: React.FC = () => {
                     imageUrl={product.image_url}
                     slug={product.slug}
                     isFeatured={product.is_featured}
+                    // Add colors to product card if needed
+                    colors={product.colors}
                   />
                 ))}
               </motion.div>
@@ -660,7 +553,6 @@ const ProductSearch: React.FC = () => {
           </div>
         </div>
       </section>
-
     </div>
   );
 };

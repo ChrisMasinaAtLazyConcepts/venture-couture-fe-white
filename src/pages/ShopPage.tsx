@@ -377,41 +377,222 @@ export default function ShopPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+    {/* Hero Section - Premium Image Collage */}
+<div className="relative overflow-hidden bg-gradient-to-br from-white via-gray-50 to-pink-50 py-16 md:py-24">
+  <div className="container mx-auto px-4">
+    <div className="relative flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8">
       
-      {/* Hero Section */}
-      <div className="bg-pink/90 text-white py-16">
-      <div className="container mx-auto px-4 text-center">
-  {/* Image Column */}
- <div className="container flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-4">
-  {/* Image Column */}
-  <div className="container flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-6">
-  {/* Image Column */}
-  <div className="md:w-1/2 flex justify-center md:justify-start">
-    <img 
-      src="/assets/images/basket.png" 
-      alt="basket" 
-      className="h-auto w-full max-w-[200px] md:max-w-[300px] object-contain max-h-96 mx-auto md:mx-0"
-    />
-  </div>
+      {/* Main Content - Left Side */}
+      <div className="lg:w-2/5 text-center lg:text-left space-y-8">
+        <div>
+          <h1 className="text-5xl lg:text-6xl xl:text-7xl font-black mb-6 tracking-tight">
+            <span className="bg-gradient-to-r from-red-600 via-red-700 to-red-800 bg-clip-text text-transparent">
+              Shop Authentic
+            </span>
+            <br />
+            <span className="text-gray-900">
+              Local & International
+            </span>
+            <br />
+            <span className="text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-800">
+              Brands
+            </span>
+          </h1>
+          <p className="text-xl lg:text-2xl text-gray-600 mb-8 leading-relaxed">
+            Get access to <span className="font-bold text-red-600">200+ Brands</span> from the comfort of your home!
+          </p>
+        </div>
 
-  {/* Text Column - This will stretch fully */}
-  <div className="md:w-1/2 text-center md:text-left w-full">
-    <h1 className="text-4xl md:text-5xl font-bold mb-4 text-black">
-      Shop Authentic local and International brands
-    </h1>
-    <p className="text-xl text-red-500">
-      Get access to over 200 Brands from the comfort of your home!
-    </p>
-  </div>
-</div>
+        {/* Stats */}
+        <div className="grid grid-cols-3 gap-4">
+          <div className="text-center p-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-100 shadow-lg">
+            <div className="text-3xl lg:text-4xl font-black text-red-600">200+</div>
+            <div className="text-sm text-gray-600">Brands</div>
+          </div>
+          <div className="text-center p-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-100 shadow-lg">
+            <div className="text-3xl lg:text-4xl font-black text-red-600">5K+</div>
+            <div className="text-sm text-gray-600">Products</div>
+          </div>
+          <div className="text-center p-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-100 shadow-lg">
+            <div className="text-3xl lg:text-4xl font-black text-red-600">24/7</div>
+            <div className="text-sm text-gray-600">Support</div>
+          </div>
+        </div>
 
-  {/* Text Column */}
-  <div className="md:w-1/2 text-center md:text-left">
-    
-  </div>
-</div>
-   </div>
+      
       </div>
+
+{/* Image Collage - Right Side */}
+<div className="ml-25 mb-25 lg:w-3/5 relative">
+        {/* Main Basket Container */}
+        <div className="relative mx-auto lg:mx-0 max-w-lg">
+          {/* Main Basket Image with Glow */}
+          <div className="relative z-0">
+            <div className="relative">
+              <img
+                src="/assets/images/basket.png"
+                alt="Shopping Basket"
+                className="w-[200px] max-w-[200px] h-auto object-contain mx-auto animate-float"
+              />
+              {/* Basket Glow Effect */}
+              <div className="absolute inset-0 bg-red-500/20 rounded-full blur-3xl -z-10"></div>
+            </div>
+            
+            {/* Rotating Brand Icons Collage */}
+            <div className="absolute inset-0 -z-10">
+              
+              {/* Large Logo Ring - Outer Circle */}
+              <div className="absolute inset-0 flex items-center justify-center animate-spin-slow">
+                {/* Nike */}
+                <div className="mb-10 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                  <div className="w-24 h-24 rounded-2xl p-4 bg-white/95 backdrop-blur-sm border-2 border-gray-100 shadow-2xl transform hover:scale-110 transition-transform duration-300 hover:shadow-red-200">
+                    <img
+                      src="/assets/images/nike.png"
+                      alt="Nike"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                </div>
+                
+                {/* Adidas */}
+                <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2">
+                  <div className="w-20 h-20 rounded-2xl p-3 bg-white/95 backdrop-blur-sm border-2 border-gray-100 shadow-2xl transform hover:scale-110 transition-transform duration-300 hover:shadow-red-200">
+                    <img
+                      src="/assets/images/adidas.jpg"
+                      alt="Adidas"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                </div>
+                
+                {/* Puma */}
+                <div className="absolute bottom-0 mt-5  left-1/2 -translate-x-1/2 translate-y-1/2">
+                  <div className="w-20 h-20 rounded-2xl p-3 bg-white/95 backdrop-blur-sm border-2 border-gray-100 shadow-2xl transform hover:scale-110 transition-transform duration-300 hover:shadow-red-200">
+                    <img
+                      src="/assets/images/puma.png"
+                      alt="Puma"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                </div>
+                
+                {/* Umbro */}
+                <div className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2">
+                  <div className="w-20 h-20 rounded-2xl p-3 bg-white/95 backdrop-blur-sm border-2 border-gray-100 shadow-2xl transform hover:scale-110 transition-transform duration-300 hover:shadow-red-200">
+                    <img
+                      src="/assets/images/umbro.png"
+                      alt="Umbro"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Inner Logo Ring - Smaller Circle */}
+              <div className="absolute inset-0 flex items-center justify-center animate-spin-reverse-slow">
+                {/* Jordan */}
+                <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2">
+                  <div className="w-16 h-16 rounded-xl p-2 bg-white/90 backdrop-blur-sm border border-gray-200 shadow-lg transform hover:scale-110 transition-transform duration-300 hover:shadow-red-200">
+                    <img
+                      src="/assets/images/jordan.png"
+                      alt="Jordan"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                </div>
+                
+                {/* ASICS */}
+                <div className="absolute top-1/4 right-1/4 -translate-y-1/2 translate-x-1/2">
+                  <div className="w-16 h-16 rounded-xl p-2 bg-white/90 backdrop-blur-sm border border-gray-200 shadow-lg transform hover:scale-110 transition-transform duration-300 hover:shadow-red-200">
+                    <img
+                      src="/assets/images/acics.PNG"
+                      alt="ASICS"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                </div>
+                
+                {/* Reebok */}
+         {/* Inner Logo Ring - Smaller Circle */}
+<div className="absolute inset-0 flex items-center justify-center animate-spin-reverse-slow">
+  {/* Jordan */}
+  <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2">
+    <div className="w-16 h-16 rounded-xl p-2 bg-white/90 backdrop-blur-sm border border-gray-200 shadow-lg transform hover:scale-110 transition-transform duration-300 hover:shadow-red-200">
+      <img
+        src="/assets/images/jordan.png"
+        alt="Jordan"
+        className="w-full h-full object-contain"
+      />
+    </div>
+  </div>
+  
+  {/* ASICS */}
+  <div className="absolute top-1/4 right-1/4 -translate-y-1/2 translate-x-1/2">
+    <div className="w-16 h-16 rounded-xl p-2 bg-white/90 backdrop-blur-sm border border-gray-200 shadow-lg transform hover:scale-110 transition-transform duration-300 hover:shadow-red-200">
+      <img
+        src="/assets/images/acics.png"
+        alt="ASICS"
+        className="w-full h-full object-contain"
+      />
+    </div>
+  </div>
+  
+  {/* Reebok - Moved 10px to left */}
+  <div className="absolute bottom-1/4 left-[15%] translate-x-1/2 translate-y-1/2">
+    <div className="w-16 h-16 rounded-xl p-2 bg-white/90 backdrop-blur-sm border border-gray-200 shadow-lg transform hover:scale-110 transition-transform duration-300 hover:shadow-red-200">
+      <img
+        src="/assets/images/reebok.png"
+        alt="Reebok"
+        className="w-full h-full object-contain"
+      />
+    </div>
+  </div>
+  
+  {/* Converse - Moved 10px to right */}
+  <div className="absolute bottom-1/4 right-[15%] -translate-x-1/2 translate-y-1/2">
+    <div className="w-16 h-16 rounded-xl p-2 bg-white/90 backdrop-blur-sm border border-gray-200 shadow-lg transform hover:scale-110 transition-transform duration-300 hover:shadow-red-200">
+      <img
+        src="/assets/images/converse.png"
+        alt="Converse"
+        className="w-full h-full object-contain"
+      />
+    </div>
+  </div>
+</div>
+              </div>
+
+              {/* Floating Particles */}
+              <div className="absolute inset-0">
+                {[...Array(8)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute w-8 h-8 bg-gradient-to-br from-red-200 to-pink-200 rounded-full opacity-40"
+                    style={{
+                      top: `${Math.random() * 100}%`,
+                      left: `${Math.random() * 100}%`,
+                      animation: `float-particle ${3 + Math.random() * 4}s infinite ease-in-out ${i * 0.5}s`,
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Background Blur Effect */}
+          <div className="absolute inset-0 -z-20">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r from-red-400/20 to-pink-400/20 rounded-full blur-3xl"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* Animated Background Elements */}
+  <div className="absolute inset-0 -z-30 overflow-hidden">
+    <div className="absolute -top-40 -right-40 w-80 h-80 bg-red-300/10 rounded-full blur-3xl"></div>
+    <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-300/10 rounded-full blur-3xl"></div>
+  </div>
+</div>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">

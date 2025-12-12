@@ -47,6 +47,17 @@ export default function Hero() {
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent"></div>
-    </section>
+    
+	  {/* CTA Button */}
+        <button className="group relative overflow-hidden bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-lg lg:text-xl py-4 px-10 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1">
+          <span className="relative z-10 flex items-center justify-center">
+            Start Shopping Now
+            <svg className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </span>
+          <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+        </button>
+	</section>
   );
 }

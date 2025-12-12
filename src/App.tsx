@@ -6,7 +6,8 @@ import ProductManagement from './pages/ProductManagement';
 import OrderTracking from './pages/OrderTracking';
 import AnalyticsDashboard from './pages/AnalyticsDashboard';
 import AdminDashboard from './pages/AdminDashboard';
-import CheckoutPage from './pages/CheckoutPage';
+import CheckoutPage from './pages/CheckoutPage';PaymentMethodsPage
+import PaymentMethodsPage from './pages/PaymentMethodsPage';
 import HomePage from './pages/HomePage';
 import ProductSearch from './pages/ProductSearch';
 import Sale from './pages/Sale';
@@ -25,6 +26,7 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/payment-methods" element={<PaymentMethodsPage />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/products" element={<ProductManagement />} />
           <Route path="/search" element={<ProductSearch />} />

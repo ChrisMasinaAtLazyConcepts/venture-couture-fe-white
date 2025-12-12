@@ -36,7 +36,7 @@ export default function Header() {
     setIsLoggedIn(true);
     // Add your login logic here
     console.log('User logged in');
-    navigate('/login');
+    navigate('/admin-dashboard');
   };
 
   const userMenuItems = [

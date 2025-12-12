@@ -25,9 +25,7 @@ const AdminLoginPage: React.FC = () => {
       console.log('Admin login attempt:', { email, rememberMe });
       // In a real app, you would validate credentials here
       // For demo, we'll accept any non-empty credentials
-      alert('Login successful! Redirecting to admin dashboard...');
-      // navigate('/admin-dashboard'); // Uncomment when you have a dashboard
-      navigate('/'); // Redirect to home for now
+       navigate('/admin-dashboard'); // Uncomment when you have a dashboard
     } else {
       setError('Please enter valid credentials');
     }

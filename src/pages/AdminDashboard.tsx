@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Package, ShoppingCart, Users, TrendingUp, DollarSign, AlertCircle, BarChart3, Clock } from 'lucide-react';
 import { supabase } from '../lib/supabase';
-import Header from '../components/Header';
+import AdminHeader from '../components/AdminHeader';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({

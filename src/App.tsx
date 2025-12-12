@@ -4,12 +4,16 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ShopPage from './pages/ShopPage';
 import ProductManagement from './pages/ProductManagement';
 import OrderTracking from './pages/OrderTracking';
-import AnalyticsDashboard from './pages/AnalyticsDashboard';
-import AdminDashboard from './pages/AdminDashboard';
+import AnalyticsDashboardPage from './pages/AnalyticsDashboardPage'; 
+import ManagePromotionsPage from './pages/ManagePromotionsPage'; 
 import CheckoutPage from './pages/CheckoutPage';
 import PaymentMethodsPage from './pages/PaymentMethodsPage';
+import AdminLayout from './components/AdminLayout';
 import RefundsAndReturnsPage from './pages/RefundsAndReturnsPage';
-import AdminLoginPage from './pages/AdminLoginPage';
+import AdminLoginPage from './pages/AdminLoginPage'; 
+import InventoryManagementPage from './pages/InventoryManagementPage';
+import SupportCentrePage from './pages/SupportCentrePage';
+import AdvertisingPage from './pages/AdvertisingPage';
 import PastPurchachesPage from './pages/PastPurchachesPage';
 import InvoicesPage from './pages/InvoicesPage';
 import SupportPage from './pages/SupportPage';
@@ -25,12 +29,21 @@ import PromoVideo from './components/PromoVideo';
 
 
 function AppContent() {
+	 const isAdminRoute = location.pathname.startsWith('/admin');
+
   return (
     <div className="min-h-screen bg-white">
-      <Header />
+    {!isAdminRoute && <Header />}
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />
+         <Route path="/admin-dashboard" element={<AnalyticsDashboardPage />} />
+          <Route path="/admin-layout" element={<AdminLayout />} />
+          <Route path="/support-center" element={<SupportCentrePage />} />
+          <Route path="/admin/inventory" element={<InventoryManagementPage />} />
+          <Route path="/admin/supply-chain" element={<InventoryManagementPage />} />
+          <Route path="/admin/advertising" element={<AdvertisingPage />} />
+          <Route path="/manage-promotions" element={<ManagePromotionsPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/admin-login" element={<AdminLoginPage />} />
           <Route path="/payment-methods" element={<PaymentMethodsPage />} />
@@ -42,8 +55,6 @@ function AppContent() {
           <Route path="/search" element={<ProductSearch />} />
           <Route path="/sale" element={<Sale />} />
           <Route path="/track-order" element={<OrderTracking />} />
-          <Route path="/dashboard" element={<AnalyticsDashboard />} />
-          <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/support" element={<SupportPage />} />
         </Routes>
@@ -51,7 +62,7 @@ function AppContent() {
       <Footer />
       <CartModal /> 
       <CheckoutModal />
-      <PromoVideo />
+      
     </div>
   );
 }

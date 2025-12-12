@@ -15,7 +15,9 @@ import AdminLayout from './components/AdminLayout';
 import RefundsAndReturnsPage from './pages/RefundsAndReturnsPage';
 import AdminLoginPage from './pages/AdminLoginPage'; 
 import InventoryManagementPage from './pages/InventoryManagementPage';
-import SupportCentrePage from './pages/SupportCentrePage';
+import SupportCentrePage from './pages/SupportCentrePage'; 
+import NewArrivalsPage from './pages/NewArrivalsPage';
+import LocalPage from './pages/LocalPage';
 import AdvertisingPage from './pages/AdvertisingPage';
 import PastPurchachesPage from './pages/PastPurchachesPage';
 import OrderFulfilmentPage from './pages/OrderFulfilmentPage';
@@ -44,6 +46,8 @@ function AppContent() {
          <Route path="/admin-dashboard" element={<AnalyticsDashboardPage />} />
          <Route path="/mens" element={<MensPage />} />
          <Route path="/womens" element={<WomensPage />} />
+         <Route path="/new" element={<NewArrivalsPage />} />
+         <Route path="/collections" element={<LocalPage />} />
          <Route path="/admin/orders" element={<OrderFulfilmentPage />} />
          <Route path="/accessories" element={<AccessoriesPage />} />
           <Route path="/admin-layout" element={<AdminLayout />} />

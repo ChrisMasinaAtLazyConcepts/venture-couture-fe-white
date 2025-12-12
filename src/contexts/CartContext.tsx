@@ -35,7 +35,7 @@ interface CartContextType {
   dispatch: React.Dispatch<CartAction>;
 }
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
+export const CartContext = createContext<CartContextType | undefined>(undefined);
 
 const getItemKey = (item: CartItem): string => {
   // Create a unique key combining id, size, and color

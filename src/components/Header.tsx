@@ -177,15 +177,14 @@ export default function Header() {
 
           <div className="hidden lg:flex items-center gap-4">
             <nav className="flex items-center gap-1">
-              {['Home', 'Women', 'Men', 'Accessories', 'New Arrivals', 'Local Brands'].map((item) => {
+              {['Home', 'Women', 'Men', 'Accessories', 'New Arrivals'].map((item) => {
                 // Define href mappings
                 const hrefMap = {
                   'Home': '/',
                   'Women': '/womens',
                   'Men': '/mens',
                   'Accessories': '/accessories',
-                  'New Arrivals': '/new',
-                  'Local Brands': '/collections'
+                  'New Arrivals': '/new'
                 };
 
                 return (

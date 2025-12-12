@@ -17,6 +17,9 @@ export default function Header() {
     dispatch({ type: 'TOGGLE_CART' });
   };
 
+  const handleAdminLogin = () => {
+    navigate('/admin-login');
+  };
   const toggleUserMenu = () => {
     setIsUserMenuOpen(!isUserMenuOpen);
   };
@@ -53,7 +56,15 @@ export default function Header() {
 		<span className="align-middle">Venture</span>
 		<strong className="text-white ml-1 align-middle">Couture</strong>
 	  </h2>
+	   <a
+		  onClick={() => navigate('/admin-login')}
+		  className="px-4 py-2 text-sm font-medium bg-transparent text-white hover:bg-white hover:text-black rounded transition ml-2 hover:border-white"
+		  title="Staff Login"
+		>
+		  VC Login
+		</a>
    </div>
+   
       <div className="container mx-auto px-4 py-3">
         {/* Main header - all items in one line */}
         <div className="flex items-center justify-between">
@@ -68,6 +79,7 @@ export default function Header() {
   
 </div>
           </a>
+		  
 
           {/* Desktop Navigation with Top Bar items integrated */}
           <div className="hidden lg:flex items-center gap-4">
@@ -203,7 +215,7 @@ export default function Header() {
 		<div className=" hidden lg:flex items-center gap-4 pr-4 border-r border-gray-200 justify-self-end">
  
   
-  
+
 </div>
         {/* Mobile menu */}
         {isMenuOpen && (

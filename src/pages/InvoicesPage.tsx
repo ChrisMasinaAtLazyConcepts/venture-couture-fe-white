@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, FileText, Download, Printer, Mail, Calendar, DollarSign, Package, ChevronDown, ChevronUp, Eye, CreditCard, Building, User, MapPin, Hash, CheckCircle } from 'lucide-react';
+import { ArrowLeft, FileText, Download, Printer, Mail, Calendar, Package, ChevronDown, ChevronUp, Eye, CreditCard, Building, User, MapPin, Hash, CheckCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface InvoiceItem {
@@ -174,7 +174,7 @@ const InvoicesPage: React.FC = () => {
     switch (status) {
       case 'paid': return <CheckCircle className="text-green-500" size={16} />;
       case 'pending': return <Calendar className="text-yellow-500" size={16} />;
-      case 'overdue': return <DollarSign className="text-red-500" size={16} />;
+      case 'overdue': return <span className="text-red-500 font-bold text-sm">R</span>;
       case 'draft': return <FileText className="text-gray-500" size={16} />;
     }
   };
@@ -283,7 +283,7 @@ const InvoicesPage: React.FC = () => {
                 <p className="text-2xl font-bold text-gray-900">{formatCurrency(stats.totalAmount)}</p>
               </div>
               <div className="p-3 bg-green-100 rounded-lg">
-                <DollarSign className="text-green-600" size={24} />
+                <span className="text-green-600 font-bold text-xl">R</span>
               </div>
             </div>
           </div>

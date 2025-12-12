@@ -9,6 +9,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import CheckoutPage from './pages/CheckoutPage';
 import PaymentMethodsPage from './pages/PaymentMethodsPage';
 import RefundsAndReturnsPage from './pages/RefundsAndReturnsPage';
+import AdminLoginPage from './pages/AdminLoginPage';
 import PastPurchachesPage from './pages/PastPurchachesPage';
 import InvoicesPage from './pages/InvoicesPage';
 import SupportPage from './pages/SupportPage';
@@ -31,6 +32,7 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/admin-login" element={<AdminLoginPage />} />
           <Route path="/payment-methods" element={<PaymentMethodsPage />} />
           <Route path="/orders" element={<PastPurchachesPage />} />
           <Route path="/invoices" element={<InvoicesPage />} />
@@ -59,7 +61,6 @@ function App() {
     <CartProvider>
     <Router>
         <AppContent />
-      <CartFooter />
     </Router>
   </CartProvider>
   );

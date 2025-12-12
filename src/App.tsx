@@ -18,6 +18,7 @@ import InventoryManagementPage from './pages/InventoryManagementPage';
 import SupportCentrePage from './pages/SupportCentrePage';
 import AdvertisingPage from './pages/AdvertisingPage';
 import PastPurchachesPage from './pages/PastPurchachesPage';
+import OrderFulfilmentPage from './pages/OrderFulfilmentPage';
 import InvoicesPage from './pages/InvoicesPage';
 import SupportPage from './pages/SupportPage';
 import ProfilePage from './pages/ProfilePage';
@@ -43,6 +44,7 @@ function AppContent() {
          <Route path="/admin-dashboard" element={<AnalyticsDashboardPage />} />
          <Route path="/mens" element={<MensPage />} />
          <Route path="/womens" element={<WomensPage />} />
+         <Route path="/admin/orders" element={<OrderFulfilmentPage />} />
          <Route path="/accessories" element={<AccessoriesPage />} />
           <Route path="/admin-layout" element={<AdminLayout />} />
           <Route path="/support-center" element={<SupportCentrePage />} />

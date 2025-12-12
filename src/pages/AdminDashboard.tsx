@@ -39,7 +39,9 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-
+      {/* AdminHeader MUST render here - This is the main admin navigation */}
+      <AdminHeader />
+      
       <div className="bg-[#B84037]  text-white py-8">
         <div className="container mx-auto px-4">
           <h1 className="text-3xl font-bold">Admin Dashboard</h1>

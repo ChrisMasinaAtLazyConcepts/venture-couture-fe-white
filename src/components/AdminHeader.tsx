@@ -25,7 +25,7 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ onMenuToggle }) => {
   ];
 
   return (
-    <header className="bg-black border-b border-gray-800 sticky top-0 z-50">
+    <header className="bg-white border-b border-gray-800 sticky top-0 z-50">
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* Left Section */}
@@ -40,7 +40,7 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ onMenuToggle }) => {
 
             {/* Logo */}
             <div className="flex items-center gap-3">
-              
+            
               <div>
                          {/* Logo */}
           <a href="/" className="flex items-center flex-shrink-0">
@@ -50,10 +50,9 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ onMenuToggle }) => {
 				className="object-contain w-40 h-20" 
 				alt="Venture Couture" 
 			  />
-  
+       <p className="text-black" >Back Office</p>
 			</div>
 	      </a>
-                <p className="text-gray-400 text-xs">Admin Dashboard</p>
               </div>
             </div>
 

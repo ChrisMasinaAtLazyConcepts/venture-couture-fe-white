@@ -134,10 +134,13 @@ export default function Header() {
     <header className="bg-black sticky top-0 z-50 shadow-sm">
       {/* Top Bar - VC Login Section */}
       <div 
-        className={`bg-black h-5 transition-all duration-300 ease-in-out ${
-          showTopBar 
-            ? 'translate-y-0 opacity-100 h-auto' // Visible state
-            : '-translate-y-full opacity-0 h-0 overflow-hidden' // Hidden state
+        className={`bg-black transition-all duration-300 ease-in-out ${
+          isHomePage 
+            ? (showTopBar 
+                ? 'translate-y-0 opacity-100 h-5' // Visible with h-5 on home
+                : '-translate-y-full opacity-0 h-0 overflow-hidden' // Hidden on home
+              )
+            : 'h-0 overflow-hidden' // Always h-0 on other pages
         }`}
       >
         {isHomePage && (

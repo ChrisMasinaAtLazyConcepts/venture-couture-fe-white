@@ -45,7 +45,7 @@ export default function FeaturedProducts() {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, []);
+  }, [isSliderPaused]);
 
   async function fetchFeaturedProducts() {
     try {
@@ -84,8 +84,12 @@ export default function FeaturedProducts() {
   }
 
   const startSliderAnimation = () => {
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+    }
+
     let position = 0;
-    const speed = 0.5; // Adjust speed here (pixels per frame)
+    const speed = 0.5;
     const sliderWidth = sliderRef.current?.scrollWidth || 0;
     const containerWidth = sliderRef.current?.parentElement?.clientWidth || 0;
 
@@ -93,8 +97,7 @@ export default function FeaturedProducts() {
       if (!isSliderPaused && sliderRef.current) {
         position -= speed;
         
-        // Reset position when images have scrolled completely
-        if (Math.abs(position) >= sliderWidth - containerWidth) {
+        if (Math.abs(position) >= sliderWidth / 2) {
           position = 0;
         }
         
@@ -126,7 +129,16 @@ export default function FeaturedProducts() {
   return (
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
-        {/* Winter Collection Slider */}
+        {/* Winter Collection Slider with Virtual Isle Title */}
+        <div className="mb-8 text-center">
+          <h2 className="text-5xl font-bold text-black mb-4">
+            Virtual Isle
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Take a virtual stroll through our winter collection
+          </p>
+        </div>
+
         <div 
           className="mb-16 relative overflow-hidden rounded-xl shadow-2xl group"
           onMouseEnter={() => setIsSliderPaused(true)}
@@ -149,10 +161,9 @@ export default function FeaturedProducts() {
           <div className="relative h-96">
             <div 
               ref={sliderRef}
-              className="flex absolute top-0 left-0 h-full transition-transform duration-1000 ease-linear"
+              className="flex absolute top-0 left-0 h-full"
               style={{ willChange: 'transform' }}
             >
-              {/* Duplicate images for seamless looping */}
               {[...WINTER_COLLECTION_IMAGES, ...WINTER_COLLECTION_IMAGES].map((image, index) => (
                 <div 
                   key={`slider-image-${index}`}
@@ -163,15 +174,14 @@ export default function FeaturedProducts() {
                     src={image} 
                     alt={`Winter collection ${index + 1}`}
                     className="w-full h-full object-cover"
+                    loading={index < 4 ? "eager" : "lazy"}
                   />
                 </div>
               ))}
             </div>
             
-            {/* Overlay gradient */}
             <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
             
-            {/* Title overlay */}
             <div className="absolute inset-0 flex items-center justify-center z-5">
               <div className="text-center text-white px-4">
                 <h3 className="text-5xl font-bold mb-4 drop-shadow-2xl">
@@ -191,8 +201,7 @@ export default function FeaturedProducts() {
           </h2>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
             Handpicked pieces that showcase the beauty and diversity of African fashion
-          </p>2026
-		  
+          </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

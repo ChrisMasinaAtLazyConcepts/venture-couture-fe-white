@@ -7,74 +7,93 @@ export default function Header() {
   const { state, dispatch } = useCart();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const [isTopBarVisible, setIsTopBarVisible] = useState(true);
+  const [showTopBar, setShowTopBar] = useState(true);
   const navigate = useNavigate();
   
-  // Mock user authentication state - you can replace this with actual auth logic
+  // Mock user authentication state
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [userName] = useState('Kalenda@vc.co.za');
 
-  // Use refs to track scroll state without triggering re-renders
-  const lastScrollYRef = useRef(0);
-  const tickingRef = useRef(false);
-  const isTopBarVisibleRef = useRef(true);
-  const timeoutRef = useRef(null);
+  // Use refs for stable values
+  const lastScrollY = useRef(0);
+  const scrollCount = useRef(0);
+  const scrollDirection = useRef('none'); // 'up' or 'down'
+  const scrollTimeout = useRef(null);
+  const isTopBarVisible = useRef(true);
+  const lastToggleTime = useRef(0); // Timestamp of last toggle
+  const throttleTimeout = useRef(null); // For scroll throttling
 
-  // Throttled scroll handler
+  // Simple, efficient scroll handler
   const handleScroll = () => {
-    const currentScrollY = window.scrollY;
-    lastScrollYRef.current = currentScrollY;
-    
-    // Use requestAnimationFrame for smooth throttling
-    if (!tickingRef.current) {
-      window.requestAnimationFrame(() => {
-        const scrollY = lastScrollYRef.current;
-        const previousScrollY = lastScrollYRef.previous || 0;
-        
-        // Determine if we're scrolling up or down
-        const isScrollingUp = scrollY < previousScrollY;
-        
-        // Show/hide logic
-        let shouldShow = false;
-        
-        if (scrollY <= 100) {
-          // Always show when at or near the top
-          shouldShow = true;
-        } else if (isScrollingUp) {
-          // Show when scrolling up
-          shouldShow = true;
-        } else {
-          // Hide when scrolling down (and not at top)
-          shouldShow = false;
-        }
-        
-        // Only update if state actually needs to change
-        if (shouldShow !== isTopBarVisibleRef.current) {
-          isTopBarVisibleRef.current = shouldShow;
-          setIsTopBarVisible(shouldShow);
-        }
-        
-        // Store previous scroll position
-        lastScrollYRef.previous = scrollY;
-        tickingRef.current = false;
-      });
-      
-      tickingRef.current = true;
+    // Throttle scroll events to reduce processing
+    if (throttleTimeout.current) {
+      return; // Skip this scroll event if we're still processing
     }
+    
+    throttleTimeout.current = setTimeout(() => {
+      const currentScrollY = window.scrollY;
+      const currentDirection = currentScrollY > lastScrollY.current ? 'down' : 'up';
+      const now = Date.now();
+      
+      // Always show at top of page
+      if (currentScrollY <= 100) {
+        if (!isTopBarVisible.current) {
+          isTopBarVisible.current = true;
+          setShowTopBar(true);
+          scrollCount.current = 0; // Reset counter
+          lastToggleTime.current = now;
+        }
+        lastScrollY.current = currentScrollY;
+        throttleTimeout.current = null;
+        return;
+      }
+      
+      // Reset counter if direction changes
+      if (currentDirection !== scrollDirection.current) {
+        scrollCount.current = 0;
+        scrollDirection.current = currentDirection;
+      }
+      
+      // Increment scroll count for current direction
+      scrollCount.current++;
+      
+      // Only toggle after 4 scroll events in the same direction
+      // AND only if at least 1 second has passed since last toggle
+      if (scrollCount.current >= 4 && (now - lastToggleTime.current) > 1000) {
+        // Show when scrolling up, hide when scrolling down
+        const shouldShow = currentDirection === 'up';
+        
+        // Only update if state actually changed
+        if (shouldShow !== isTopBarVisible.current) {
+          isTopBarVisible.current = shouldShow;
+          setShowTopBar(shouldShow);
+          lastToggleTime.current = now;
+          
+          // Reset count to 2 (so it takes 2 more scrolls to toggle again)
+          scrollCount.current = 2;
+        }
+      }
+      
+      lastScrollY.current = currentScrollY;
+      throttleTimeout.current = null;
+    }, 50); // 50ms throttle for smoothness
   };
 
   useEffect(() => {
-    // Initialize previous scroll position
-    lastScrollYRef.previous = window.scrollY;
+    // Initial scroll position
+    lastScrollY.current = window.scrollY;
     
-    // Set up scroll listener with passive option for better performance
+    // Add scroll listener
     window.addEventListener('scroll', handleScroll, { passive: true });
     
-    // Clean up
+    // Cleanup
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current);
+      }
+      if (throttleTimeout.current) {
+        clearTimeout(throttleTimeout.current);
       }
     };
   }, []);
@@ -110,30 +129,32 @@ export default function Header() {
 
   return (
     <header className="bg-black sticky top-0 z-50 shadow-sm">
-      {/* Top Bar with scroll-to-hide functionality */}
+      {/* Top Bar - VC Login Section */}
       <div 
-        className={`bg-black py-2 border-b border-gray-800 transition-all duration-300 ease-in-out ${
-          isTopBarVisible 
-            ? 'opacity-100 transform translate-y-0 h-auto' 
-            : 'opacity-0 transform -translate-y-full h-0 overflow-hidden'
+        className={`bg-black border-b border-gray-800 transition-all duration-300 ease-in-out ${
+          showTopBar 
+            ? 'translate-y-0 opacity-100 h-auto' // Visible state
+            : '-translate-y-full opacity-0 h-0 overflow-hidden' // Hidden state
         }`}
       >
-        <div className="container mx-auto px-4 flex justify-center items-center">
-          <h2 className="text-gray-300 flex items-baseline">
-            <span className="align-middle">Venture</span>
-            <strong className="text-white ml-1 align-middle">Couture</strong>
-          </h2>
-          <button
-            onClick={() => navigate('/admin-login')}
-            className="px-4 py-2 text-sm font-medium bg-transparent text-white hover:bg-white hover:text-black rounded transition ml-2 hover:border-white"
-            title="Staff Login"
-          >
-            VC Login
-          </button>
+        <div className="container mx-auto px-4 py-2">
+          <div className="flex justify-center items-center">
+            <h2 className="text-gray-300 flex items-baseline">
+              <span className="align-middle">Venture</span>
+              <strong className="text-white ml-1 align-middle">Couture</strong>
+            </h2>
+            <button
+              onClick={() => navigate('/admin-login')}
+              className="px-4 py-2 text-sm font-medium bg-transparent text-white hover:bg-white hover:text-black rounded transition ml-2 hover:border-white"
+              title="Staff Login"
+            >
+              VC Login
+            </button>
+          </div>
         </div>
       </div>
       
-      {/* Main Header - rest of your component remains the same */}
+      {/* Main Header */}
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           <a href="/" className="flex items-center flex-shrink-0">
@@ -267,7 +288,7 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Mobile menu - rest of your mobile menu code remains the same */}
+        {/* Mobile menu */}
         {isMenuOpen && (
           <nav className="lg:hidden border-t border-gray-800 pt-4 mt-3">
             <div className="pl-10 flex flex-wrap gap-3 mb-4 pb-4 border-b border-gray-800">

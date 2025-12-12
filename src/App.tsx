@@ -5,6 +5,9 @@ import ShopPage from './pages/ShopPage';
 import ProductManagement from './pages/ProductManagement';
 import OrderTracking from './pages/OrderTracking';
 import AnalyticsDashboardPage from './pages/AnalyticsDashboardPage'; 
+import MensPage from './pages/MensPage'; MensPage
+import WomensPage from './pages/WomensPage'; 
+import AccessoriesPage from './pages/AccessoriesPage'; 
 import ManagePromotionsPage from './pages/ManagePromotionsPage'; 
 import CheckoutPage from './pages/CheckoutPage';
 import PaymentMethodsPage from './pages/PaymentMethodsPage';
@@ -38,6 +41,9 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<HomePage />} />
          <Route path="/admin-dashboard" element={<AnalyticsDashboardPage />} />
+         <Route path="/mens" element={<MensPage />} />
+         <Route path="/womens" element={<WomensPage />} />
+         <Route path="/accessories" element={<AccessoriesPage />} />
           <Route path="/admin-layout" element={<AdminLayout />} />
           <Route path="/support-center" element={<SupportCentrePage />} />
           <Route path="/admin/inventory" element={<InventoryManagementPage />} />

@@ -1,16 +1,50 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import ProductCard from './ProductCard';
 import { supabase, Product, ProductImage } from '../lib/supabase';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Pause, Play } from 'lucide-react';
 
 type ProductWithImage = Product & { image_url: string };
+
+// Winter collection stock images - 20 images as requested
+const WINTER_COLLECTION_IMAGES = [
+  'https://images.pexels.com/photos/1021693/pexels-photo-1021693.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/1021694/pexels-photo-1021694.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/3768005/pexels-photo-3768005.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/3768006/pexels-photo-3768006.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/3768007/pexels-photo-3768007.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/3768008/pexels-photo-3768008.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/3768009/pexels-photo-3768009.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/3768010/pexels-photo-3768010.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/1884581/pexels-photo-1884581.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/1884582/pexels-photo-1884582.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/1884583/pexels-photo-1884583.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/1884584/pexels-photo-1884584.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/1884585/pexels-photo-1884585.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/1884586/pexels-photo-1884586.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/1884587/pexels-photo-1884587.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/1884588/pexels-photo-1884588.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/1884589/pexels-photo-1884589.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/1884590/pexels-photo-1884590.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/1884591/pexels-photo-1884591.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/1884592/pexels-photo-1884592.jpeg?auto=compress&cs=tinysrgb&w=800',
+];
 
 export default function FeaturedProducts() {
   const [products, setProducts] = useState<ProductWithImage[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isSliderPaused, setIsSliderPaused] = useState(false);
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const animationRef = useRef<number>();
 
   useEffect(() => {
     fetchFeaturedProducts();
+    startSliderAnimation();
+    
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
   }, []);
 
   async function fetchFeaturedProducts() {
@@ -49,6 +83,34 @@ export default function FeaturedProducts() {
     }
   }
 
+  const startSliderAnimation = () => {
+    let position = 0;
+    const speed = 0.5; // Adjust speed here (pixels per frame)
+    const sliderWidth = sliderRef.current?.scrollWidth || 0;
+    const containerWidth = sliderRef.current?.parentElement?.clientWidth || 0;
+
+    const animate = () => {
+      if (!isSliderPaused && sliderRef.current) {
+        position -= speed;
+        
+        // Reset position when images have scrolled completely
+        if (Math.abs(position) >= sliderWidth - containerWidth) {
+          position = 0;
+        }
+        
+        sliderRef.current.style.transform = `translateX(${position}px)`;
+      }
+      
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    animationRef.current = requestAnimationFrame(animate);
+  };
+
+  const toggleSlider = () => {
+    setIsSliderPaused(!isSliderPaused);
+  };
+
   if (loading) {
     return (
       <section className="py-16 bg-gray-50">
@@ -64,8 +126,67 @@ export default function FeaturedProducts() {
   return (
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
+        {/* Winter Collection Slider */}
+        <div 
+          className="mb-16 relative overflow-hidden rounded-xl shadow-2xl group"
+          onMouseEnter={() => setIsSliderPaused(true)}
+          onMouseLeave={() => setIsSliderPaused(false)}
+        >
+          <div className="absolute top-4 right-4 z-10">
+            <button
+              onClick={toggleSlider}
+              className="bg-black/50 hover:bg-black/70 text-white p-2 rounded-full backdrop-blur-sm transition-all"
+              aria-label={isSliderPaused ? "Play slider" : "Pause slider"}
+            >
+              {isSliderPaused ? (
+                <Play className="w-6 h-6" />
+              ) : (
+                <Pause className="w-6 h-6" />
+              )}
+            </button>
+          </div>
+          
+          <div className="relative h-96">
+            <div 
+              ref={sliderRef}
+              className="flex absolute top-0 left-0 h-full transition-transform duration-1000 ease-linear"
+              style={{ willChange: 'transform' }}
+            >
+              {/* Duplicate images for seamless looping */}
+              {[...WINTER_COLLECTION_IMAGES, ...WINTER_COLLECTION_IMAGES].map((image, index) => (
+                <div 
+                  key={`slider-image-${index}`}
+                  className="flex-shrink-0 w-full h-full"
+                  style={{ width: '100vw' }}
+                >
+                  <img 
+                    src={image} 
+                    alt={`Winter collection ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+            
+            {/* Overlay gradient */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
+            
+            {/* Title overlay */}
+            <div className="absolute inset-0 flex items-center justify-center z-5">
+              <div className="text-center text-white px-4">
+                <h3 className="text-5xl font-bold mb-4 drop-shadow-2xl">
+                  Winter Collection 2024
+                </h3>
+                <p className="text-xl opacity-90 drop-shadow-lg">
+                  Discover our cozy African-inspired winter essentials
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4 bg-[#B84037]  bg-clip-text text-transparent">
+          <h2 className="text-4xl font-bold mb-4 bg-[#B84037] bg-clip-text text-transparent">
             Featured Collection
           </h2>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
@@ -91,7 +212,7 @@ export default function FeaturedProducts() {
         <div className="text-center mt-12">
           <a
             href="/shop"
-            className="inline-block bg-[#B84037]  hover:from-orange-700 hover:via-red-700 hover:to-amber-700 text-white px-8 py-4 rounded-lg font-bold text-lg transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
+            className="inline-block bg-[#B84037] hover:from-orange-700 hover:via-red-700 hover:to-amber-700 text-white px-8 py-4 rounded-lg font-bold text-lg transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
           >
             View All Products
           </a>

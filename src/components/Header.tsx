@@ -1,6 +1,6 @@
 import { ShoppingCart, Search, User, Heart, Menu, X, Package, FileText, CreditCard, HelpCircle, LogOut, Settings, ChevronDown, Tag } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 
 export default function Header() {
@@ -114,7 +114,7 @@ export default function Header() {
 
   const handleLogin = () => {
     setIsLoggedIn(true);
-  window.open('/admin-login', '_blank');
+    window.open('/admin-login', '_blank');
   };
 
   const userMenuItems = [
@@ -127,6 +127,9 @@ export default function Header() {
     { icon: <LogOut size={16} />, label: 'Logout', onClick: handleLogout, isDanger: true },
   ];
 
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+  
   return (
     <header className="bg-black sticky top-0 z-50 shadow-sm">
       {/* Top Bar - VC Login Section */}
@@ -137,21 +140,23 @@ export default function Header() {
             : '-translate-y-full opacity-0 h-0 overflow-hidden' // Hidden state
         }`}
       >
-        <div className="container mx-auto px-4 py-2">
-          <div className="flex justify-center items-center">
-            <h2 className="text-gray-300 flex items-baseline">
-              <span className="align-middle">Venture</span>
-              <strong className="text-white ml-1 align-middle">Couture</strong>
-            </h2>
-            <button
-              onClick={() => navigate('/admin-login')}
-              className="px-4 py-2 text-sm font-medium bg-transparent text-white hover:bg-white hover:text-black rounded transition ml-2 hover:border-white"
-              title="Staff Login"
-            >
-              VC Login
-            </button>
+        {isHomePage && (
+          <div className="container mx-auto px-4 py-2">
+            <div className="flex justify-center items-center">
+              <h2 className="text-gray-300 flex items-baseline">
+                <span className="align-middle">Venture</span>
+                <strong className="text-white ml-1 align-middle">Couture</strong>
+              </h2>
+              <button
+                onClick={() => navigate('/admin-login')}
+                className="px-4 py-2 text-sm font-medium bg-transparent text-white hover:bg-white hover:text-black rounded transition ml-2 hover:border-white"
+                title="Staff Login"
+              >
+                VC Login
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
       
       {/* Main Header */}
@@ -169,15 +174,27 @@ export default function Header() {
 
           <div className="hidden lg:flex items-center gap-4">
             <nav className="flex items-center gap-1">
-              {['Home', 'Women', 'Men', 'Accessories', 'New', 'Collections'].map((item) => (
-                <a
-                  key={item}
-                  href="/"
-                  className="mr-5 px-3 py-2 text-white hover:text-black hover:bg-gray-100 rounded transition font-medium text-sm"
-                >
-                  {item}
-                </a>
-              ))}
+              {['Home', 'Women', 'Men', 'Accessories', 'New Arrivals', 'Local Brands'].map((item) => {
+                // Define href mappings
+                const hrefMap = {
+                  'Home': '/',
+                  'Women': '/womens',
+                  'Men': '/mens',
+                  'Accessories': '/accessories',
+                  'New Arrivals': '/new',
+                  'Local Brands': '/collections'
+                };
+
+                return (
+                  <a
+                    key={item}
+                    href={hrefMap[item] || '/'}
+                    className="mr-5 px-3 py-2 text-white hover:text-black hover:bg-gray-100 rounded transition font-medium text-sm"
+                  >
+                    {item}
+                  </a>
+                );
+              })}
               <a
                 href="/sale"
                 className="mr-4 flex items-center px-4 py-2 text-red-400 rounded transition font-medium text-sm ml-1 hover:bg-red-400/10"

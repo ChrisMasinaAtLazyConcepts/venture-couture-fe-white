@@ -62,127 +62,130 @@ const CheckoutPage: React.FC = () => {
           <h1 className="text-3xl font-bold text-gray-900">Secure Checkout</h1>
           <p className="text-gray-600 mt-2">Complete your purchase</p>
 		  
-	<div className="right-0">
-<div className="flex items-center gap-4">
-  {/* Visa Logo */}
-  <div className="relative h-6 w-12">
-    <img 
-      src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" 
-      alt="Visa" 
-      className="h-full w-full object-contain"
-    />
-  </div>
-  
-  {/* Mastercard Logo */}
-  <div className="relative h-6 w-12">
-    <img 
-      src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" 
-      alt="Mastercard" 
-      className="h-full w-full object-contain"
-    />
-  </div>
-   {/* Ozow Logo */}
-  <div className="flex items-center justify-center w-12 h-6 bg-white rounded px-1">
-    <span className="text-green-600 font-bold text-sm tracking-wide">OZOW</span>
-  </div>
-   {/* Security Badge */}
-  <div className="flex items-center justify-center w-8 h-8">
-    <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-green-600">
-      <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  </div>
-  
-   {/* Security */}
-  <div className="flex items-center gap-2 text-sm text-gray-600 mt-2">
-    <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4 text-green-600">
-      <path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-    <span>256-bit SSL encryption • PCI compliant</span>
-  </div>
-
-</div>
-</div>
+          <div className="right-0">
+            <div className="flex items-center gap-4">
+              {/* Visa Logo */}
+              <div className="relative h-6 w-12">
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" 
+                  alt="Visa" 
+                  className="h-full w-full object-contain"
+                />
+              </div>
+              
+              {/* Mastercard Logo */}
+              <div className="relative h-6 w-12">
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" 
+                  alt="Mastercard" 
+                  className="h-full w-full object-contain"
+                />
+              </div>
+              
+              {/* Ozow Logo */}
+              <div className="flex items-center justify-center w-12 h-6 bg-white rounded px-1">
+                <span className="text-green-600 font-bold text-sm tracking-wide">OZOW</span>
+              </div>
+              
+              {/* Security Badge */}
+              <div className="flex items-center justify-center w-8 h-8">
+                <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-green-600">
+                  <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              
+              {/* Security */}
+              <div className="flex items-center gap-2 text-sm text-gray-600 mt-2">
+                <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4 text-green-600">
+                  <path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <span>256-bit SSL encryption • PCI compliant</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Left Column - Cart Summary (Read Only) */}
-          <div className="lg:w-2/5">
-            <div className="bg-white rounded-xl shadow-lg p-6 sticky top-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-6 pb-4 border-b border-gray-200">
-                Order Summary
-              </h2>
-              
-              <div className="space-y-4 mb-6">
-                {state.items.map((item) => (
-                  <div key={item.id} className="flex items-center gap-4 pb-4 border-b border-gray-100">
-                    <div className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
-                      {item.imageUrl ? (
-                        <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gray-200">
-                          <Package className="text-gray-400" size={24} />
+          {/* Left Column - Cart Summary (Hidden when order is complete) */}
+          {!isComplete && (
+            <div className="lg:w-2/5">
+              <div className="bg-white rounded-xl shadow-lg p-6 sticky top-8">
+                <h2 className="text-xl font-bold text-gray-900 mb-6 pb-4 border-b border-gray-200">
+                  Order Summary
+                </h2>
+                
+                <div className="space-y-4 mb-6">
+                  {state.items.map((item) => (
+                    <div key={item.id} className="flex items-center gap-4 pb-4 border-b border-gray-100">
+                      <div className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+                        {item.imageUrl ? (
+                          <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                            <Package className="text-gray-400" size={24} />
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-medium text-gray-900">{item.name}</h3>
+                        <div className="flex justify-between items-center mt-2">
+                          <p className="text-sm text-gray-600">Qty: {item.quantity} • Size: {item.size}</p>
+                          <p className="font-bold text-gray-900">
+                            R{((item.salePrice || item.price) * item.quantity).toFixed(2)}
+                          </p>
                         </div>
-                      )}
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-medium text-gray-900">{item.name}</h3>
-                      <div className="flex justify-between items-center mt-2">
-                        <p className="text-sm text-gray-600">Qty: {item.quantity} • Size: {item.size}</p>
-                        <p className="font-bold text-gray-900">
-                          R{((item.salePrice || item.price) * item.quantity).toFixed(2)}
-                        </p>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
 
-              <div className="space-y-3">
-                <div className="flex justify-between text-gray-700">
-                  <span>Subtotal</span>
-                  <span>R{state.total.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between text-gray-700">
-                  <span>Shipping</span>
-                  <span className="text-green-600 font-medium">Free</span>
-                </div>
-                <div className="flex justify-between text-gray-700">
-                  <span>Tax</span>
-                  <span>R{(state.total * 0.15).toFixed(2)}</span>
-                </div>
-                <div className="border-t border-gray-300 pt-3">
-                  <div className="flex justify-between font-bold text-lg text-gray-900">
-                    <span>Total</span>
-                    <span>R{(state.total * 1.15).toFixed(2)}</span>
+                <div className="space-y-3">
+                  <div className="flex justify-between text-gray-700">
+                    <span>Subtotal</span>
+                    <span>R{state.total.toFixed(2)}</span>
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">VAT included</p>
+                  <div className="flex justify-between text-gray-700">
+                    <span>Shipping</span>
+                    <span className="text-green-600 font-medium">Free</span>
+                  </div>
+                  <div className="flex justify-between text-gray-700">
+                    <span>Tax</span>
+                    <span>R{(state.total * 0.15).toFixed(2)}</span>
+                  </div>
+                  <div className="border-t border-gray-300 pt-3">
+                    <div className="flex justify-between font-bold text-lg text-gray-900">
+                      <span>Total</span>
+                      <span>R{(state.total * 1.15).toFixed(2)}</span>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">VAT included</p>
+                  </div>
                 </div>
-              </div>
 
-              {/* Trust Badges */}
-              <div className="mt-8 pt-6 border-t border-gray-200">
-                <div className="flex items-center justify-center gap-4 text-sm text-gray-600">
-                  <div className="flex items-center gap-2">
-                    <Shield size={16} className="text-green-600" />
-                    <span>Secure</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Lock size={16} className="text-green-600" />
-                    <span>Encrypted</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Truck size={16} className="text-green-600" />
-                    <span>Fast Delivery</span>
+                {/* Trust Badges */}
+                <div className="mt-8 pt-6 border-t border-gray-200">
+                  <div className="flex items-center justify-center gap-4 text-sm text-gray-600">
+                    <div className="flex items-center gap-2">
+                      <Shield size={16} className="text-green-600" />
+                      <span>Secure</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Lock size={16} className="text-green-600" />
+                      <span>Encrypted</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Truck size={16} className="text-green-600" />
+                      <span>Fast Delivery</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
 
-          {/* Right Column - Checkout Form */}
-          <div className="lg:w-3/5">
+          {/* Right Column - Checkout Form OR Success Message */}
+          <div className={`${isComplete ? 'lg:w-full' : 'lg:w-3/5'}`}>
             {isComplete ? (
               <div className="bg-white rounded-xl shadow-lg p-8 text-center">
                 <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">

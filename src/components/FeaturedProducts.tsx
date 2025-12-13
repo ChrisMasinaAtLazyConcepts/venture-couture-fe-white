@@ -1,8 +1,10 @@
-import { useEffect, useState, useRef, useContext } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import ProductCard from './ProductCard';
-import { CartContext } from '../contexts/CartContext';
-import { Loader2, Pause, Play, X, ShoppingBag, Maximize2, RotateCw, Palette, Star, ZoomIn, Tag, Flame, Clock, AlertCircle } from 'lucide-react';
-
+import { useCart } from '../contexts/CartContext';
+import { Loader2, X, ShoppingBag, Maximize2, RotateCw, Palette, Star, ZoomIn, Tag, Flame, Clock, AlertCircle } from 'lucide-react';
+// Add these imports with your other imports
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // Winter collection stock images for main slider (store scenes)
 const WINTER_COLLECTION_IMAGES = [
   '/assets/images/virtual-isle/store-scene-1.jpg',
@@ -220,9 +222,8 @@ const DUMMY_FEATURED_PRODUCTS = [
   },
 ];
 
+
 export default function FeaturedProducts() {
-  const cartContext = useContext(CartContext);
-  const { addToCart: addToCartContext } = cartContext || { addToCart: null };
   const [products, setProducts] = useState(DUMMY_FEATURED_PRODUCTS);
   const [loading, setLoading] = useState(false);
   const [isSliderPaused, setIsSliderPaused] = useState(false);
@@ -232,6 +233,8 @@ export default function FeaturedProducts() {
   const [show3DModal, setShow3DModal] = useState(false);
   const [hoveredAisle, setHoveredAisle] = useState(null);
   const [speedMultiplier, setSpeedMultiplier] = useState(1.5);
+  
+  const { dispatch } = useCart();
   
   // Separate animation refs for each aisle
   const mainSliderRef = useRef(null);
@@ -268,7 +271,7 @@ export default function FeaturedProducts() {
 
     const animate = () => {
       if (!isSliderPaused) {
-        const currentSpeed = baseSpeedRef.current * speedMultiplier;
+        const currentSpeed = baseSpeedRef.current * speedMultiplier * 0.5;
         positionRef.current -= currentSpeed;
         
         if (mainSliderRef.current) {
@@ -277,7 +280,7 @@ export default function FeaturedProducts() {
             positionRef.current = 0;
           }
           mainSliderRef.current.style.transform = `translateX(${positionRef.current}px)`;
-          mainSliderRef.current.style.transition = 'transform 0.1s linear';
+          mainSliderRef.current.style.transition = 'transform 0.3s linear';
         }
       }
       
@@ -295,14 +298,14 @@ export default function FeaturedProducts() {
 
     const animateAisle = () => {
       if (!isSliderPaused && hoveredAisle === null) {
-        const currentSpeed = baseSpeedRef.current * speedMultiplier;
+        const currentSpeed = baseSpeedRef.current * speedMultiplier * 0.5;
         positionRefs.current[aisleIndex].current -= currentSpeed;
         
         const slider = miniSlidersRef.current[aisleIndex];
         if (slider) {
           // Calculate total width (all items width)
-          const totalWidth = slider.children.length * 100; // 100% per item
-          const containerWidth = 100; // Container is 100% wide
+          const totalWidth = slider.children.length * 100;
+          const containerWidth = 100;
           
           // Reset position when we've scrolled through all items
           if (Math.abs(positionRefs.current[aisleIndex].current) >= totalWidth - containerWidth) {
@@ -310,7 +313,7 @@ export default function FeaturedProducts() {
           }
           
           slider.style.transform = `translateX(${positionRefs.current[aisleIndex].current}%)`;
-          slider.style.transition = 'transform 0.1s linear';
+          slider.style.transition = 'transform 0.3s linear';
         }
       }
       
@@ -332,11 +335,11 @@ export default function FeaturedProducts() {
   };
 
   const increaseSpeed = () => {
-    setSpeedMultiplier(prev => Math.min(prev + 0.5, 3));
+    setSpeedMultiplier(prev => Math.min(prev + 0.2, 2.0));
   };
 
   const decreaseSpeed = () => {
-    setSpeedMultiplier(prev => Math.max(prev - 0.5, 0.5));
+    setSpeedMultiplier(prev => Math.max(prev - 0.2, 0.3));
   };
 
   const handleProductClick = (product) => {
@@ -359,57 +362,59 @@ export default function FeaturedProducts() {
   };
 
   // Unified addToCart function
-  const addToCart = (product, isFromVirtualIsle = false) => {
-   
-    // Prepare cart item
-    const cartItem = {
-      id: product.id || `item-${Date.now()}`,
-      name: product.name,
-      price: isFromVirtualIsle ? 
-        parseFloat(product.price.replace('R ', '').replace(',', '')) : 
-        (product.sale_price || product.base_price),
-      image: product.image || product.image_url,
-      color: selectedColor || product.colors?.[0] || '#3B82F6',
-      size: product.size || 'M',
-      quantity: 1
-    };
-    
-    // Use CartContext if available
-    if (addToCartContext) {
-		 const productToAdd = {
-      ...product,
-      price: `R ${product.sale_price || product.base_price}`,
-      inStock: product.inStock !== false
-    };
-       dispatch({
-      type: 'ADD_ITEM',
-      payload: productToAdd
-    });
-    } else {
-      // Fallback to localStorage
-      const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
-      const existingItemIndex = existingCart.findIndex(item => 
-        item.id === cartItem.id && 
-        item.color === cartItem.color && 
-        item.size === cartItem.size
-      );
-      
-      if (existingItemIndex > -1) {
-        existingCart[existingItemIndex].quantity += 1;
-      } else {
-        existingCart.push(cartItem);
-      }
-      
-      
-      // Dispatch custom event for cart updates
-      window.dispatchEvent(new CustomEvent('cartUpdated'));
+// Unified addToCart function - FIXED VERSION
+// Unified addToCart function - FIXED following ProductCard pattern
+const addToCart = (product, isFromVirtualIsle = false) => {
+  // First check stock status
+  if (isFromVirtualIsle) {
+    if (product.isOutOfStock) {
+      alert('This item is out of stock!');
+      return;
     }
-    
-    
-    // Close modals if open
-    if (showDetailModal) closeDetailModal();
-    if (show3DModal) close3DModal();
+  } else {
+    if (product.inStock === false) {
+      alert('This item is out of stock!');
+      return;
+    }
+  }
+  
+  // Prepare the payload EXACTLY like ProductCard does
+  // ProductCard uses: { id, name, price, salePrice, imageUrl, quantity: 1 }
+  const payload = {
+    id: product.id || `item-${Date.now()}`,
+    name: product.name,
+    // Use numeric price (extract from string if needed)
+    price: isFromVirtualIsle ? 
+      parseFloat(product.price.replace('R ', '').replace(',', '')) : 
+      (product.sale_price || product.base_price),
+    // For virtual isle products, check if there's an original price
+    salePrice: isFromVirtualIsle && product.originalPrice ? 
+      parseFloat(product.originalPrice.replace('R ', '').replace(',', '')) : 
+      (isFromVirtualIsle ? null : product.sale_price),
+    imageUrl: product.image || product.image_url,
+    quantity: 1
   };
+  
+  // Dispatch with the same structure as ProductCard
+  if (dispatch) {
+    dispatch({
+      type: 'ADD_ITEM',
+      payload: payload
+    });
+    
+    // Show success toast instead of alert
+    toast.success(`Added ${product.name} to cart!`, {
+      position: "top-right",
+      autoClose: 3000,
+      theme: "colored",
+      style: { backgroundColor: '#10B981' } // Green background
+    });
+  }
+  
+  // Close modals if open
+  if (showDetailModal) closeDetailModal();
+  if (show3DModal) close3DModal();
+};
 
   // Add to cart handler specifically for ProductCard components (Featured Collection)
   const handleAddToCartFromCard = (product) => {
@@ -679,52 +684,16 @@ export default function FeaturedProducts() {
             ))}
           </div>
         </div>
-
-        {/* Full Width Featured Products Section */}
-        <div className="w-full mt-16">
-          <div className="text-center mb-12 w-full">
-            <h2 className="text-4xl font-bold mb-4 text-gray-900">
-              Featured Collection
-            </h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              Handpicked pieces that showcase the beauty and diversity of African fashion
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
-            {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                id={product.id}
-                name={product.name}
-                price={product.base_price}
-                salePrice={product.sale_price}
-                imageUrl={product.image_url}
-                slug={product.slug}
-                isFeatured={product.is_featured}
-                onAddToCart={() => handleAddToCartFromCard(product)}
-              />
-            ))}
-          </div>
-
-          <div className="text-center mt-12 w-full">
-            <a
-              href="/shop"
-              className="inline-block bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
-            >
-              Explore All Collections
-            </a>
-          </div>
-        </div>
       </div>
 
-      {/* Product Detail Modal */}
+      {/* Product Detail Modal - NO VERTICAL SCROLLBAR */}
       {showDetailModal && selectedProduct && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-gray-200 shadow-2xl">
+          <div className="bg-white rounded-xl max-w-4xl w-full border border-gray-200 shadow-2xl">
             <div className="p-6">
+              {/* Top Header with Title, Badges, and Colors */}
               <div className="flex justify-between items-start mb-6">
-                <div>
+                <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
                     {selectedProduct.badge?.label && (
                       <div className={`${selectedProduct.badge.color} px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1`}>
@@ -742,15 +711,43 @@ export default function FeaturedProducts() {
                   <h3 className="text-3xl font-bold text-gray-900">{selectedProduct.name}</h3>
                   <p className="text-gray-600 mt-2">{selectedProduct.description}</p>
                 </div>
-                <button
-                  onClick={closeDetailModal}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                >
-                  <X className="w-6 h-6 text-gray-700" />
-                </button>
+                
+                {/* Right Side - Colors and Close Button */}
+                <div className="flex flex-col items-end gap-4 ml-4">
+                  <button
+                    onClick={closeDetailModal}
+                    className="p-2 hover:bg-gray-100 rounded-full transition-colors self-end"
+                  >
+                    <X className="w-6 h-6 text-gray-700" />
+                  </button>
+                  
+                  {/* Colors moved here */}
+                  {selectedProduct.colors?.length > 0 && (
+                    <div className="mt-2">
+                      <div className="flex items-center gap-2 mb-2 justify-end">
+                        <span className="text-sm font-medium text-gray-700">Colors</span>
+                        <Palette className="w-4 h-4 text-gray-500" />
+                      </div>
+                      <div className="flex gap-2 flex-wrap justify-end max-w-[200px]">
+                        {selectedProduct.colors.map((color, index) => (
+                          <button
+                            key={index}
+                            onClick={() => setSelectedColor(color)}
+                            className={`w-8 h-8 rounded-full border-2 transition-all ${
+                              selectedColor === color ? 'border-red-600 scale-110 shadow-md' : 'border-gray-300'
+                            }`}
+                            style={{ backgroundColor: color }}
+                            title={`Color ${index + 1}`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
               
               <div className="grid md:grid-cols-2 gap-8">
+                {/* Left Column - Product Image */}
                 <div>
                   <div className="relative h-96 flex items-center justify-center mb-6 bg-gray-50 rounded-lg">
                     <div className="relative w-80 h-80">
@@ -767,29 +764,39 @@ export default function FeaturedProducts() {
                     </div>
                   </div>
                   
+                  {/* Size Selection moved here for better flow */}
                   <div className="mb-6">
                     <h4 className="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
-                      <Palette className="w-5 h-5" />
-                      Available Colors
+                      <Tag className="w-5 h-5" />
+                      Available Sizes
                     </h4>
                     <div className="flex gap-3">
-                      {selectedProduct.colors?.map((color, index) => (
-                        <button
-                          key={index}
-                          onClick={() => setSelectedColor(color)}
-                          className={`w-10 h-10 rounded-full border-2 transition-all ${
-                            selectedColor === color ? 'border-red-600 scale-110' : 'border-gray-300'
-                          }`}
-                          style={{ backgroundColor: color }}
-                          title={`Color ${index + 1}`}
-                        />
-                      )) || <p className="text-gray-500">No colors available</p>}
+                      {selectedProduct.size ? (
+                        <div className="flex gap-2">
+                          {Array.isArray(selectedProduct.size) ? (
+                            selectedProduct.size.map((size, index) => (
+                              <button
+                                key={index}
+                                className="px-4 py-2 border border-gray-300 rounded-lg hover:border-red-600 hover:text-red-600 transition"
+                              >
+                                {size}
+                              </button>
+                            ))
+                          ) : (
+                            <span className="text-gray-700">{selectedProduct.size}</span>
+                          )}
+                        </div>
+                      ) : (
+                        <p className="text-gray-500">One Size Fits All</p>
+                      )}
                     </div>
                   </div>
                 </div>
                 
+                {/* Right Column - Product Details */}
                 <div>
                   <div className="bg-gray-50 rounded-xl p-6 mb-6">
+                    {/* Price and Rating */}
                     <div className="flex justify-between items-center mb-4">
                       <div>
                         <span className="text-3xl font-bold text-gray-900">{selectedProduct.price}</span>
@@ -804,6 +811,7 @@ export default function FeaturedProducts() {
                       </div>
                     </div>
                     
+                    {/* Product Details */}
                     <div className="space-y-4 mb-6">
                       <div className="flex items-center justify-between py-2 border-b border-gray-200">
                         <span className="text-gray-600">Stock Status</span>
@@ -816,16 +824,17 @@ export default function FeaturedProducts() {
                         <span className="text-gray-900 font-medium">{selectedProduct.material || 'Cotton'}</span>
                       </div>
                       <div className="flex items-center justify-between py-2 border-b border-gray-200">
-                        <span className="text-gray-600">Size</span>
-                        <span className="text-gray-900 font-medium">{selectedProduct.size || 'M'}</span>
-                      </div>
-                      <div className="flex items-center justify-between py-2 border-b border-gray-200">
                         <span className="text-gray-600">Delivery</span>
                         <span className="text-red-600 font-medium">2-3 Business Days</span>
+                      </div>
+                      <div className="flex items-center justify-between py-2 border-b border-gray-200">
+                        <span className="text-gray-600">Return Policy</span>
+                        <span className="text-green-600 font-medium">30 Days Return</span>
                       </div>
                     </div>
                   </div>
                   
+                  {/* Action Buttons - FIXED: Using correct function name */}
                   <div className="flex flex-col sm:flex-row gap-3">
                     <button
                       onClick={() => handleAddToCartFromVirtualIsle(selectedProduct)}
@@ -858,10 +867,10 @@ export default function FeaturedProducts() {
         </div>
       )}
 
-      {/* 3D Try-On Modal */}
+      {/* 3D Try-On Modal - Also remove scrollbar */}
       {show3DModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white rounded-xl max-w-5xl w-full max-h-[90vh] overflow-y-auto border border-gray-200 shadow-2xl">
+          <div className="bg-white rounded-xl max-w-5xl w-full border border-gray-200 shadow-2xl">
             <div className="p-6">
               <div className="flex justify-between items-start mb-6">
                 <div>
